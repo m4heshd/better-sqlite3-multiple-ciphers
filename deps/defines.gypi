@@ -37,5 +37,6 @@
     'HAVE_UINT8_T=1',
     'HAVE_UINT16_T=1',
     'HAVE_UINT32_T=1',
+    'SQLITE_USER_AUTHENTICATION=0',
   ],
 }
