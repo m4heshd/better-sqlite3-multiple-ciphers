@@ -1,13 +1,13 @@
 {
-  "name": "better-sqlite3",
+  "name": "better-sqlite3-multiple-ciphers",
   "version": "7.4.3",
-  "description": "The fastest and simplest library for SQLite3 in Node.js.",
-  "homepage": "http://github.com/JoshuaWise/better-sqlite3",
-  "author": "Joshua Wise <joshuathomaswise@gmail.com>",
+  "description": "better-sqlite3 with multiple-cipher encryption support",
+  "homepage": "https://github.com/m4heshd/better-sqlite3-multiple-ciphers",
+  "author": "Mahesh Bandara Wijerathna (m4heshd) <m4heshd@gmail.com>",
   "main": "lib/index.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/JoshuaWise/better-sqlite3.git"
+    "url": "git://github.com/m4heshd/better-sqlite3-multiple-ciphers.git"
   },
   "dependencies": {
     "bindings": "^1.5.0",
@@ -40,6 +40,9 @@
     "sql",
     "sqlite",
     "sqlite3",
+    "sqleet",
+    "sqlcipher",
+    "encryption",
     "transactions",
     "user-defined functions",
     "aggregate functions",
