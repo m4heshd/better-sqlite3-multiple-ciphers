@@ -36,7 +36,7 @@ Various options are accepted:
 - `options.verbose`: provide a function that gets called with every SQL string executed by the database connection (default: `null`).
 
 ```js
-const Database = require('better-sqlite3');
+const Database = require('better-sqlite3-multiple-ciphers');
 const db = new Database('foobar.db', { verbose: console.log });
 ```
 

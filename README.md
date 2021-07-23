@@ -1,6 +1,6 @@
-# better-sqlite3 [![Build Status](https://github.com/JoshuaWise/better-sqlite3/actions/workflows/build.yml/badge.svg)](https://github.com/JoshuaWise/better-sqlite3/actions/workflows/build.yml?query=branch%3Amaster)
+# better-sqlite3-multiple-ciphers
 
-The fastest and simplest library for SQLite3 in Node.js.
+The fastest and simplest library for SQLite3 in Node.js. This particular fork supports multiple-cipher encryption using [SQLite3MultipleCiphers](https://github.com/utelle/SQLite3MultipleCiphers). Check [usage](#usage) to learn more.
 
 - Full transaction support
 - High performance, efficiency, and safety
@@ -39,11 +39,36 @@ npm install better-sqlite3
 ## Usage
 
 ```js
-const db = require('better-sqlite3')('foobar.db', options);
+const db = require('better-sqlite3-multiple-ciphers')('foobar.db', options);
 
 const row = db.prepare('SELECT * FROM users WHERE id = ?').get(userId);
 console.log(row.firstName, row.lastName, row.email);
 ```
+
+### Encryption
+
+A database can be encrypted and decrypted simply using `key` and `rekey` `PRAGMA` statements.
+
+Running this will encrypt the database using the default cipher:
+
+```js
+const db = require('better-sqlite3-multiple-ciphers')('foobar.db', options);
+
+db.pragma("rekey='secret-key'");
+db.close();
+```
+
+To read an encrypted database (assuming default cipher):
+
+```js
+const db = require('better-sqlite3-multiple-ciphers')('foobar.db', options);
+
+db.pragma("key='secret-key'");
+const row = db.prepare("SELECT * FROM users WHERE id = ?").get(userId);
+console.log(row.firstName, row.lastName, row.email);
+```
+
+Read more about encryption at [SQLite3MultipleCiphers documentation](https://utelle.github.io/SQLite3MultipleCiphers/).
 
 ## Why should I use this instead of [node-sqlite3](https://github.com/mapbox/node-sqlite3)?
 

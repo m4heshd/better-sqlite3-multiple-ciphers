@@ -8,7 +8,7 @@ The worker logic is very simple in our case. It accepts messages from the master
 
 ```js
 const { parentPort } = require('worker_threads');
-const db = require('better-sqlite3')('foobar.db');
+const db = require('better-sqlite3-multiple-ciphers')('foobar.db');
 
 parentPort.on('message', ({ sql, parameters }) => {
   const result = db.prepare(sql).all(...parameters);
