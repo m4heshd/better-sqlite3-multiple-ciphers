@@ -1,6 +1,6 @@
 # Troubleshooting installation
 
-If you have trouble installing `better-sqlite3`, follow this checklist:
+If you have trouble installing `better-sqlite3-multiple-ciphers`, follow this checklist:
 
 1. Make sure you're using nodejs v10.20.1 or later
 

@@ -9,6 +9,12 @@ The fastest and simplest library for SQLite3 in Node.js. This particular fork su
 - 64-bit integers *(invisible until you need them)*
 - Worker thread support *(for large/slow queries)*
 
+## Current versions
+
+- **better-sqlite3-multiple-ciphers** - `7.4.2`
+- **SQLite** - `3.36.0`
+- **SQLite3 Multiple Ciphers** - `1.3.3`
+
 ## Help this project stay strong! &#128170;
 
 `better-sqlite3` is used by thousands of developers and engineers on a daily basis. Long nights and weekends were spent keeping this project strong and dependable, with no ask for compensation or funding, until now. If your company uses `better-sqlite3`, ask your manager to consider supporting the project:
@@ -16,6 +22,8 @@ The fastest and simplest library for SQLite3 in Node.js. This particular fork su
 - [Become a GitHub sponsor](https://github.com/sponsors/JoshuaWise)
 - [Become a backer on Patreon](https://www.patreon.com/joshuawise)
 - [Make a one-time donation on PayPal](https://www.paypal.me/joshuathomaswise)
+
+Also head over to [SQLite3MultipleCiphers](https://github.com/utelle/SQLite3MultipleCiphers) repo and give some support to the developer to keep this very useful extension alive.
 
 ## How other libraries compare
 
@@ -29,7 +37,7 @@ The fastest and simplest library for SQLite3 in Node.js. This particular fork su
 ## Installation
 
 ```bash
-npm install better-sqlite3
+npm install better-sqlite3-multiple-ciphers
 ```
 
 > You must be using Node.js v10.20.1 or above. Prebuilt binaries are available for [LTS versions](https://nodejs.org/en/about/releases/).
