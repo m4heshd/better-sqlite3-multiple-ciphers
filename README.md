@@ -13,7 +13,7 @@ The fastest and simplest library for SQLite3 in Node.js. This particular fork su
 
 - **better-sqlite3-multiple-ciphers** - `7.4.2`
 - **SQLite** - `3.36.0`
-- **SQLite3 Multiple Ciphers** - `1.3.3`
+- **SQLite3 Multiple Ciphers** - `1.3.4`
 
 ## Help this project stay strong! &#128170;
 
