@@ -32,3 +32,14 @@ jobs:
       - run: npm install --ignore-scripts
       - run: npm run build-debug
       - run: npm test
+
+  test-alpine:
+    name: Testing Node 16 on apline
+    runs-on: ubuntu-latest
+    container: node:16-alpine
+    steps:
+      - uses: actions/checkout@v2
+      - run: apk add build-base git python3 --update-cache
+      - run: npm install --ignore-scripts
+      - run: npm run build-debug
+      - run: npm test
