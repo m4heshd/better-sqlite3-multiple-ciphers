@@ -1,5 +1,14 @@
 # better-sqlite3-multiple-ciphers
 
+<a href="https://www.npmjs.com/package/better-sqlite3-multiple-ciphers">
+    <img src="https://img.shields.io/npm/v/better-sqlite3-multiple-ciphers?logo=npm&color=cc3838&style=for-the-badge" alt="NPM Version">
+</a>
+<a href="https://www.npmjs.com/package/better-sqlite3-multiple-ciphers">
+    <img src="https://img.shields.io/npm/dt/better-sqlite3-multiple-ciphers?logo=DocuSign&logoColor=FFF&color=2757c4&style=for-the-badge" alt="Downloads">
+</a>
+
+####
+
 The fastest and simplest library for SQLite3 in Node.js. This particular fork supports multiple-cipher encryption using [SQLite3MultipleCiphers](https://github.com/utelle/SQLite3MultipleCiphers). Check [usage](#usage) to learn more.
 
 - Full transaction support
