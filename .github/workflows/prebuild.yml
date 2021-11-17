@@ -3,7 +3,7 @@ name: prebuild
 on:
   release:
     types:
-      - released
+      - published
 
 jobs:
   prebuild:
