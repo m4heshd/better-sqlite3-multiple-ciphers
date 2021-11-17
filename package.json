@@ -34,7 +34,16 @@
     "benchmark": "node benchmark",
     "download": "bash ./deps/download.sh",
     "setup": "powershell ./deps/setup.ps1",
-    "lzz": "lzz -hx hpp -sx cpp -k BETTER_SQLITE3 -d -hl -sl -e ./src/better_sqlite3.lzz"
+    "lzz": "lzz -hx hpp -sx cpp -k BETTER_SQLITE3 -d -hl -sl -e ./src/better_sqlite3.lzz",
+    "release:patch": "npm --no-git-tag-version version patch",
+    "release:minor": "npm --no-git-tag-version version minor",
+    "release:major": "npm --no-git-tag-version version major",
+    "release:patch:beta": "npm --no-git-tag-version --preid=beta version prepatch",
+    "release:minor:beta": "npm --no-git-tag-version --preid=beta version preminor",
+    "release:major:beta": "npm --no-git-tag-version --preid=beta version premajor",
+    "release:prerelease:beta": "npm --no-git-tag-version --preid=beta version prerelease",
+    "publish": "npm publish",
+    "publish:beta": "npm publish --tag beta"
   },
   "license": "MIT",
   "keywords": [
