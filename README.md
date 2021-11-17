@@ -20,9 +20,15 @@ The fastest and simplest library for SQLite3 in Node.js. This particular fork su
 
 ## Current versions
 
-- **better-sqlite3-multiple-ciphers** - `7.4.4`
-- **SQLite** - `3.36.0`
-- **SQLite3 Multiple Ciphers** - `1.3.4`
+- ### Stable
+  - **better-sqlite3-multiple-ciphers** - `7.4.4`
+  - **SQLite** - `3.36.0`
+  - **SQLite3 Multiple Ciphers** - `1.3.4`
+
+- ### Beta
+  - **better-sqlite3-multiple-ciphers** - [`7.4.5-beta.0`](https://www.npmjs.com/package/better-sqlite3-multiple-ciphers/v/7.4.5-beta.0)
+  - **SQLite** - `3.36.0`
+  - **SQLite3 Multiple Ciphers** - `1.3.4`
 
 ## Help this project stay strong! &#128170;
 
@@ -45,11 +51,19 @@ Also head over to [SQLite3MultipleCiphers](https://github.com/utelle/SQLite3Mult
 
 ## Installation
 
+### Stable
+
 ```bash
 npm install better-sqlite3-multiple-ciphers
 ```
 
-> You must be using Node.js v10.20.1 or above. Prebuilt binaries are available for [LTS versions](https://nodejs.org/en/about/releases/).
+### Beta
+
+```bash
+npm install better-sqlite3-multiple-ciphers@beta
+```
+
+> You must be using Node.js v10.20.1 or above. Prebuilt binaries are available for Node.js [LTS versions](https://nodejs.org/en/about/releases/) and Electron.
 
 > If you have trouble installing, check the [troubleshooting guide](./docs/troubleshooting.md).
 
