@@ -45,7 +45,7 @@ jobs:
       - run: npm run build-debug
       - run: npm test
 
-  test-arm64-alpine:
+  test-alpine-arm64:
     name: Testing Node 16 on apline (arm64)
     runs-on: ubuntu-latest
     steps:
@@ -56,4 +56,4 @@ jobs:
           cd better-sqlite3 && \
           npm install --ignore-scripts && \
           npm run build-debug && \
-          npm test
+          npm test"
