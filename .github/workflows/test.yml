@@ -44,3 +44,16 @@ jobs:
       - run: npm install --ignore-scripts
       - run: npm run build-debug
       - run: npm test
+
+  test-arm64-alpine:
+    name: Testing Node 16 on apline (arm64)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: docker/setup-qemu-action@v1
+      - run: |
+          docker run --rm --entrypoint /bin/sh --platform linux/arm64 node:16-alpine -c "apk add build-base git python3 --update-cache && \
+          git clone https://github.com/JoshuaWise/better-sqlite3 && \
+          cd better-sqlite3 && \
+          npm install --ignore-scripts && \
+          npm run build-debug && \
+          npm test
