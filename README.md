@@ -40,6 +40,10 @@ The fastest and simplest library for SQLite3 in Node.js. This particular fork su
 
 Also head over to [SQLite3MultipleCiphers](https://github.com/utelle/SQLite3MultipleCiphers) repo and give some support to the developer to keep this very useful extension alive.
 
+You can also support me (the maintainer of this fork) by buying me a coffee. 😊
+
+[![ko-fi](https://i.ibb.co/QmQknmc/ko-fi.png)](https://ko-fi.com/m4heshd)
+
 ## How other libraries compare
 
 |   |select 1 row &nbsp;`get()`&nbsp;|select 100 rows &nbsp;&nbsp;`all()`&nbsp;&nbsp;|select 100 rows `iterate()` 1-by-1|insert 1 row `run()`|insert 100 rows in a transaction|
