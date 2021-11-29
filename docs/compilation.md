@@ -1,17 +1,17 @@
 # Custom configuration
 
-If you want to use a customized version of [SQLite3](https://www.sqlite.org) with `better-sqlite3`, you can do so by specifying the directory of your [custom amalgamation](https://www.sqlite.org/amalgamation.html) during installation.
+If you want to use a customized version of [SQLite3](https://www.sqlite.org) with `better-sqlite3-multiple-ciphers`, you can do so by specifying the directory of your [custom amalgamation](https://www.sqlite.org/amalgamation.html) during installation.
 
 ```bash
-npm install better-sqlite3 --build-from-source --sqlite3=/path/to/sqlite-amalgamation
+npm install better-sqlite3-multiple-ciphers --build-from-source --sqlite3=/path/to/sqlite-amalgamation
 ```
 
-However, if you simply run `npm install` while `better-sqlite3` is listed as a dependency in your `package.json`, the required flags above will *not* be applied. Therefore, it's recommended that you remove `better-sqlite3` from your dependency list, and instead add a [`preinstall` script](https://docs.npmjs.com/misc/scripts) like the one shown below.
+However, if you simply run `npm install` while `better-sqlite3-multiple-ciphers` is listed as a dependency in your `package.json`, the required flags above will *not* be applied. Therefore, it's recommended that you remove `better-sqlite3-multiple-ciphers` from your dependency list, and instead add a [`preinstall` script](https://docs.npmjs.com/misc/scripts) like the one shown below.
 
 ```json
 {
   "scripts": {
-    "preinstall": "npm install better-sqlite3@'^7.0.0' --no-save --build-from-source --sqlite3=\"$(pwd)/sqlite-amalgamation\""
+    "preinstall": "npm install better-sqlite3-multiple-ciphers@'^7.0.0' --no-save --build-from-source --sqlite3=\"$(pwd)/sqlite-amalgamation\""
   }
 }
 ```
@@ -20,7 +20,7 @@ Your amalgamation directory must contain `sqlite3.c` and `sqlite3.h`. Any desire
 
 ### Step by step example
 
-If you're creating a package that relies on a custom build of `better-sqlite3`, you can follow these steps to get started.
+If you're creating a package that relies on a custom build of `better-sqlite3-multiple-ciphers`, you can follow these steps to get started.
 
 1. Download the SQLite3 source code from [their website](https://sqlite.com/download.html) (e.g., `sqlite-amalgamation-1234567.zip`)
 2. Unzip the compressed archive
@@ -34,7 +34,7 @@ If you're using a SQLite3 encryption extension that is a drop-in replacement for
 
 # Bundled configuration
 
-By default, this distribution currently uses SQLite3 **version 3.36.0** with the following [compilation options](https://www.sqlite.org/compile.html):
+By default, this distribution currently uses SQLite3 **version 3.37.0** with the following [compilation options](https://www.sqlite.org/compile.html):
 
 ```
 SQLITE_DQS=0
