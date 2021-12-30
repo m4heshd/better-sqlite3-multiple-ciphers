@@ -63,7 +63,7 @@ npm install better-sqlite3-multiple-ciphers
 npm install better-sqlite3-multiple-ciphers@beta
 ```
 
-> You must be using Node.js v10.20.1 or above. Prebuilt binaries are available for Node.js [LTS versions](https://nodejs.org/en/about/releases/) and Electron.
+> You must be using Node.js v10.20.1 or above. Prebuilt binaries are available for Node.js [LTS versions](https://nodejs.org/en/about/releases/) and Electron. If you have trouble installing, check the [troubleshooting guide](./docs/troubleshooting.md).
 
 > If you have trouble installing, check the [troubleshooting guide](./docs/troubleshooting.md).
 
@@ -74,6 +74,13 @@ const db = require('better-sqlite3-multiple-ciphers')('foobar.db', options);
 
 const row = db.prepare('SELECT * FROM users WHERE id = ?').get(userId);
 console.log(row.firstName, row.lastName, row.email);
+```
+
+##### In ES6 module notation:
+
+```js
+import Database from 'better-sqlite3-multiple-ciphers';
+const db = new Database('foobar.db', options);
 ```
 
 ### Encryption
