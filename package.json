@@ -4,15 +4,20 @@
   "description": "better-sqlite3 with multiple-cipher encryption support",
   "homepage": "https://github.com/m4heshd/better-sqlite3-multiple-ciphers",
   "author": "Mahesh Bandara Wijerathna (m4heshd) <m4heshd@gmail.com>",
-  "main": "lib/index.js",
   "repository": {
     "type": "git",
     "url": "git://github.com/m4heshd/better-sqlite3-multiple-ciphers.git"
   },
+  "main": "lib/index.js",
+  "files": [
+    "binding.gyp",
+    "src/*.[ch]pp",
+    "lib/**",
+    "deps/**"
+  ],
   "dependencies": {
     "bindings": "^1.5.0",
-    "prebuild-install": "^7.0.0",
-    "tar": "^6.1.11"
+    "prebuild-install": "^7.0.0"
   },
   "devDependencies": {
     "chai": "^4.3.4",
@@ -52,6 +57,7 @@
     "sqlite3",
     "sqleet",
     "sqlcipher",
+    "sqlite3multipleciphers",
     "encryption",
     "transactions",
     "user-defined functions",
