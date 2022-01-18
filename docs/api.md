@@ -2,6 +2,8 @@
 
 - [class `Database`](#class-database)
 - [class `Statement`](#class-statement)
+- [class `SqliteError`](#class-sqliteerror)
+- [Binding Parameters](#binding-parameters)
 
 # class *Database*
 
@@ -362,7 +364,7 @@ Just like [user-defined functions](#functionname-options-function---this) and [u
 
 Loads a compiled [SQLite3 extension](https://sqlite.org/loadext.html) and applies it to the current database connection.
 
-It's your responsibility to make sure the extensions you load are compiled/linked against a version of [SQLite3](https://www.sqlite.org/) that is compatible with `better-sqlite3`. Keep in mind that new versions of `better-sqlite3` will periodically use newer versions of [SQLite3](https://www.sqlite.org/). You can see which version is being used [here](./compilation.md#bundled-configuration).
+It's your responsibility to make sure the extensions you load are compiled/linked against a version of [SQLite3](https://www.sqlite.org/) that is compatible with `better-sqlite3-multiple-ciphers`. Keep in mind that new versions of `better-sqlite3-multiple-ciphers` will periodically use newer versions of [SQLite3](https://www.sqlite.org/). You can see which version is being used [here](./compilation.md#bundled-configuration).
 
 ```js
 db.loadExtension('./my-extensions/compress.so');
@@ -596,6 +598,14 @@ console.log(cat.name); // => "Joey"
 
 **.readonly -> _boolean_** - Whether the prepared statement is readonly, meaning it does not mutate the database (note that [SQL functions might still change the database indirectly](https://www.sqlite.org/c3ref/stmt_readonly.html) as a side effect, even if the `.readonly` property is `true`).
 
+# class *SqliteError*
+
+Whenever an error occurs within SQLite3, a `SqliteError` object will be thrown. `SqliteError` is a subclass of `Error`. Every `SqliteError` object has a `code` property, which is a string matching one of error codes defined [here](https://sqlite.org/rescode.html) (for example, `"SQLITE_CONSTRAINT"`).
+
+If you receive a `SqliteError`, it probably means you're using SQLite3 incorrectly. The error didn't originate in `better-sqlite3-multiple-ciphers`, so it's probably not an issue with `better-sqlite3-multiple-ciphers`. It's recommended that you learn about the meaning of the error [here](https://sqlite.org/rescode.html), and perhaps learn more about how to use SQLite3 by reading [their docs](https://sqlite.org/docs.html).
+
+> In the unlikely scenario that SQLite3 throws an error that is not recognized by `better-sqlite3-multiple-ciphers` (this would be considered a bug in `better-sqlite3-multiple-ciphers`), the `code` property will be `"UNKNOWN_SQLITE_ERROR_NNNN"`, where `NNNN` is the numeric error code. If this happens to you, please report it as an [issue](https://github.com/m4heshd/better-sqlite3-multiple-ciphers/issues).
+
 # Binding Parameters
 
 This section refers to anywhere in the documentation that specifies the optional argument [*`...bindParameters`*].
@@ -611,7 +621,7 @@ stmt.run(['John', 'Smith', 45]);
 stmt.run(['John'], ['Smith', 45]);
 ```
 
-You can also use named parameters. SQLite3 provides [3 different syntaxes for named parameters](https://www.sqlite.org/lang_expr.html) (`@foo`, `:foo`, and `$foo`), all of which are supported by `better-sqlite3`.
+You can also use named parameters. SQLite3 provides [3 different syntaxes for named parameters](https://www.sqlite.org/lang_expr.html) (`@foo`, `:foo`, and `$foo`), all of which are supported by `better-sqlite3-multiple-ciphers`.
 
 ```js
 // The following are equivalent.
