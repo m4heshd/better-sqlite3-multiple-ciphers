@@ -1,0 +1,51 @@
+name: update-sqlite3mc
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'SQLite3MultipleCiphers version (prefixed with "v")'
+        required: true
+      sqlite_version:
+        description: 'SQLite version'
+        required: true
+
+jobs:
+  download-and-update:
+    name: Download and update SQLite3MultipleCiphers
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: pwsh
+    env:
+      ENV_VERSION: ${{ github.event.inputs.version }}
+      ENV_SQLITE_VERSION: ${{ github.event.inputs.sqlite_version }}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 16
+      - name: Create new update branch
+        run: git checkout -b sqlite3mc-update-${{ env.ENV_VERSION }}
+      - name: Update setup script and docs
+        run: |
+          (get-content deps\setup.ps1) | %{$_ -replace 'SQLITEMC_VER = "v[0-9]+.[0-9]+.[0-9]+"', 'SQLITEMC_VER = "${{ env.ENV_VERSION }}"'} | Set-Content deps\setup.ps1
+          (get-content docs\compilation.md) | %{$_ -replace 'version [0-9]+.[0-9]+.[0-9]+', 'version ${{ env.ENV_SQLITE_VERSION }}'} | Set-Content docs\compilation.md
+      - name: Downlod and package SQLite3MultipleCiphers
+        run: |
+          cd deps
+          .\setup.ps1
+      - name: Push update branch
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: 'Update `SQLite3MultipleCiphers` amalgamation to `${{ env.ENV_VERSION }}`'
+          branch: sqlite3mc-update-${{ env.ENV_VERSION }}
+      - name: Create new PR
+        uses: repo-sync/pull-request@v2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          source_branch: sqlite3mc-update-${{ env.ENV_VERSION }}
+          pr_title: 'Update \`SQLite3MultipleCiphers\` amalgamation to \`${{ env.ENV_VERSION }}\`'
+          pr_body: 'This is an automated pull request, updating \`SQLite3MultipleCiphers\` version to \`${{ env.ENV_VERSION }}\`.'
