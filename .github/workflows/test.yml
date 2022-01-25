@@ -58,3 +58,21 @@ jobs:
           npm install --ignore-scripts && \
           npm run build-debug && \
           npm test"
+
+  test-linux-arm:
+    strategy:
+      matrix:
+        arch:
+          - arm/v7
+          - arm64
+    name: Testing Node 16 on Linux (${{ matrix.arch }})
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: docker/setup-qemu-action@v1
+      - run: |
+          docker run --rm -v $(pwd):/tmp/project --entrypoint /bin/sh --platform linux/${{ matrix.arch }} node:16 -c "\
+          cd /tmp/project && \
+          npm install --ignore-scripts && \
+          npm run build-debug && \
+          npm test"
