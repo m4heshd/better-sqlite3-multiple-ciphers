@@ -26,8 +26,8 @@ jobs:
       - if: matrix.os == 'windows-latest'
         run: npx --no-install prebuild -r electron -t 10.0.0 -t 11.0.0 -t 12.0.0 -t 13.0.0 -t 14.0.0 -t 15.0.0 -t 16.0.0 --include-regex 'better_sqlite3.node$' --arch ia32 -u ${{ secrets.GITHUB_TOKEN }}
 
-  prebuild-alpine:
-    name: Prebuild on alpine
+  prebuild-alpine-linux:
+    name: Prebuild on Alpine-Linux (x64)
     runs-on: ubuntu-latest
     container: node:16-alpine
     steps:
@@ -36,14 +36,15 @@ jobs:
       - run: npm install --ignore-scripts
       - run: npx --no-install prebuild -r node -t 10.20.0 -t 12.0.0 -t 14.0.0 -t 16.0.0 --include-regex 'better_sqlite3.node$' -u ${{ secrets.GITHUB_TOKEN }}
 
-  prebuild-alpine-arm64:
-    name: Prebuild on alpine (arm64)
+  prebuild-alpine-linux-arm64:
+    name: Prebuild on Alpine-Linux (arm64)
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - uses: docker/setup-qemu-action@v1
       - run: |
-          docker run --rm --entrypoint /bin/sh --platform linux/arm64 node:16-alpine -c "apk add build-base git python3 --update-cache && \
-          git clone ${{ github.event.repository.clone_url }} && \
-          cd ${{ github.event.repository.name }} && \
+          docker run --rm -v $(pwd):/tmp/project --entrypoint /bin/sh --platform linux/arm64 node:16-alpine -c "\
+          apk add build-base git python3 --update-cache && \
+          cd /tmp/project && \
           npm install --ignore-scripts && \
           npx --no-install prebuild -r node -t 10.20.0 -t 12.0.0 -t 14.0.0 -t 16.0.0 --include-regex 'better_sqlite3.node$' -u ${{ secrets.GITHUB_TOKEN }}"
