@@ -34,8 +34,8 @@ jobs:
       - run: npm run build-debug
       - run: npm test
 
-  test-alpine:
-    name: Testing Node 16 on apline
+  test-alpine-linux:
+    name: Testing Node 16 on Alpine-Linux
     runs-on: ubuntu-latest
     container: node:16-alpine
     steps:
