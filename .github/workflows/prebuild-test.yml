@@ -1,0 +1,25 @@
+name: prebuild-test
+
+on:
+  workflow_dispatch:
+    inputs:
+      runtime:
+        description: 'Prebuild runtime'
+        required: true
+        default: node
+      targets:
+        description: 'Runtime versions'
+        required: true
+        default: -t 16.0.0
+
+jobs:
+  prebuild-test:
+    name: Testing prebuild on ubuntu-18.04
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 16
+      - run: npm install --ignore-scripts
+      - run: npx --no-install prebuild -r ${{ github.event.inputs.runtime }} ${{ github.event.inputs.targets }} --include-regex 'better_sqlite3.node$'
