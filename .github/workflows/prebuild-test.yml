@@ -11,11 +11,20 @@ on:
         description: 'Runtime versions'
         required: true
         default: -t 16.0.0
+      platform:
+        description: 'Platform'
+        required: true
+        default: 'ubuntu-18.04'
+        type: choice
+        options:
+          - ubuntu-18.04
+          - macos-latest
+          - windows-2019
 
 jobs:
   prebuild-test:
-    name: Testing prebuild on ubuntu-18.04
-    runs-on: ubuntu-18.04
+    name: Testing prebuild on ${{ github.event.inputs.platform }}
+    runs-on: ${{ github.event.inputs.platform }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
