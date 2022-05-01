@@ -10,7 +10,7 @@ on:
       targets:
         description: 'Runtime versions'
         required: true
-        default: -t 16.0.0
+        default: -t 18.0.0
       platform:
         description: 'Platform'
         required: true
