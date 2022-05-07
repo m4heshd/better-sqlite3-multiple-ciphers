@@ -2,7 +2,7 @@
 $ErrorActionPreference = "Stop"
 
 # SQLite Info
-$SQLITEMC_VER = "v1.4.2"
+$SQLITEMC_VER = "v1.4.3"
 $API_URL = "https://api.github.com/repos/utelle/SQLite3MultipleCiphers/releases/tags/" + $SQLITEMC_VER
 
 # Paths
