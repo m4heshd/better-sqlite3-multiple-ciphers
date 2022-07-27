@@ -28,6 +28,10 @@ describe('Encryption using default cipher (Sqleet)', () => {
         const stmt = this.db.prepare('SELECT * FROM user');
         expect(stmt.get()).to.deep.equal({name: 'octocat'});
     });
+    it('should not allow to encrypt an in-memory database', () => {
+        this.db = new Database(':memory:');
+        expect(() => this.db.pragma(`rekey='passphrase'`)).to.throw(Database.SqliteError);
+    });
 });
 
 describe('Encryption using SQLCiper', () => {
@@ -65,5 +69,10 @@ describe('Encryption using SQLCiper', () => {
         this.db.pragma(`key='passphrase'`);
         const stmt = this.db.prepare('SELECT * FROM user');
         expect(stmt.get()).to.deep.equal({name: 'octocat'});
+    });
+    it('should not allow to encrypt an in-memory database', () => {
+        this.db = new Database(':memory:');
+        this.db.pragma(`cipher='sqlcipher'`);
+        expect(() => this.db.pragma(`rekey='passphrase'`)).to.throw(Database.SqliteError);
     });
 });
