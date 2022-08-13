@@ -9,6 +9,7 @@
     "url": "git://github.com/m4heshd/better-sqlite3-multiple-ciphers.git"
   },
   "main": "lib/index.js",
+  "types": "index.d.ts",
   "files": [
     "binding.gyp",
     "src/*.[ch]pp",
@@ -27,7 +28,8 @@
     "nodemark": "^0.3.0",
     "prebuild": "^11.0.4",
     "sqlite": "^4.1.1",
-    "sqlite3": "^5.0.8"
+    "sqlite3": "^5.0.8",
+    "@types/better-sqlite3": "latest"
   },
   "scripts": {
     "install": "prebuild-install || npm run build-release",
