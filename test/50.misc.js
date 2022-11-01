@@ -10,7 +10,7 @@ describe('miscellaneous', function () {
 	});
 
 	it('persists non-trivial quantities of reads and writes', function () {
-		const runDuration = 1000;
+		const runDuration = 10000;
 		const runUntil = Date.now() + runDuration;
 		this.slow(runDuration * 10);
 		this.timeout(runDuration * 3);
