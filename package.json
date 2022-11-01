@@ -32,7 +32,7 @@
     "@types/better-sqlite3": "latest"
   },
   "scripts": {
-    "install": "prebuild-install || npm run build-release",
+    "install": "prebuild-install || node-gyp rebuild --release",
     "build-release": "node-gyp rebuild --release",
     "build-debug": "node-gyp rebuild --debug",
     "rebuild-release": "npm run lzz && npm run build-release",
