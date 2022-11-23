@@ -78,11 +78,18 @@ const row = db.prepare('SELECT * FROM users WHERE id = ?').get(userId);
 console.log(row.firstName, row.lastName, row.email);
 ```
 
+Though not required, [it is generally important to set the WAL pragma for performance reasons](https://github.com/WiseLibs/better-sqlite3/blob/master/docs/performance.md).
+
+```js
+db.pragma('journal_mode = WAL');
+```
+
 ##### In ES6 module notation:
 
 ```js
 import Database from 'better-sqlite3-multiple-ciphers';
 const db = new Database('foobar.db', options);
+db.pragma('journal_mode = WAL');
 ```
 
 ### Encryption
