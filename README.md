@@ -94,7 +94,7 @@ db.pragma('journal_mode = WAL');
 
 A database can be encrypted and decrypted simply using `key` and `rekey` `PRAGMA` statements.
 
-Running this will encrypt the database using the default cipher:
+**Running this will encrypt the database using the default cipher:**
 
 ```js
 const db = require('better-sqlite3-multiple-ciphers')('foobar.db', options);
@@ -103,7 +103,7 @@ db.pragma("rekey='secret-key'");
 db.close();
 ```
 
-To read an encrypted database (assuming default cipher):
+**To read an encrypted database (assuming default cipher):**
 
 ```js
 const db = require('better-sqlite3-multiple-ciphers')('foobar.db', options);
@@ -113,7 +113,20 @@ const row = db.prepare("SELECT * FROM users WHERE id = ?").get(userId);
 console.log(row.firstName, row.lastName, row.email);
 ```
 
-Read more about encryption at [SQLite3MultipleCiphers documentation](https://utelle.github.io/SQLite3MultipleCiphers/).
+**To read an encrypted database _(legacy SQLCipher)_ created by tools like [DB Browser for SQLite](https://github.com/sqlitebrowser/sqlitebrowser):**
+
+```js
+const db = require('better-sqlite3-multiple-ciphers')('foobar.db', options);
+
+db.pragma(`cipher='sqlcipher'`)
+db.pragma(`legacy=4`)
+db.pragma("key='secret-key'");
+const row = db.prepare("SELECT * FROM users WHERE id = ?").get(userId);
+console.log(row.firstName, row.lastName, row.email);
+```
+The same method should be used if you want to create a new encrypted database that can be opened using DB Browser for SQLite.
+
+### Read more about encryption at [SQLite3MultipleCiphers documentation](https://utelle.github.io/SQLite3MultipleCiphers/).
 
 ## Why should I use this instead of [node-sqlite3](https://github.com/mapbox/node-sqlite3)?
 
