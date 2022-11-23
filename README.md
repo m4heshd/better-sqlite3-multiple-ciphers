@@ -65,9 +65,7 @@ npm install better-sqlite3-multiple-ciphers
 npm install better-sqlite3-multiple-ciphers@beta
 ```
 
-> You must be using Node.js v10.20.1 or above. Prebuilt binaries are available for Node.js [LTS versions](https://nodejs.org/en/about/releases/) and Electron. If you have trouble installing, check the [troubleshooting guide](./docs/troubleshooting.md).
-
-> If you have trouble installing, check the [troubleshooting guide](./docs/troubleshooting.md).
+> You must be using Node.js v14.21.1 or above. Prebuilt binaries are available for Node.js [LTS versions](https://nodejs.org/en/about/releases/) and Electron. If you have trouble installing, check the [troubleshooting guide](./docs/troubleshooting.md).
 
 ## Usage
 
