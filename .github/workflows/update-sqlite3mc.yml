@@ -47,5 +47,5 @@ jobs:
         with:
           github_token: ${{ secrets.ACTIONS_REPO_ACCESS }}
           source_branch: sqlite3mc-update-${{ env.ENV_VERSION }}
-          pr_title: 'Update \`SQLite3MultipleCiphers\` amalgamation to \`${{ env.ENV_VERSION }}\`'
-          pr_body: 'This is an automated pull request, updating \`SQLite3MultipleCiphers\` version to \`${{ env.ENV_VERSION }}\`.'
+          pr_title: 'Update `SQLite3MultipleCiphers` amalgamation to `${{ env.ENV_VERSION }}`'
+          pr_body: 'This is an automated pull request, updating `SQLite3MultipleCiphers` version to `${{ env.ENV_VERSION }}`.'
