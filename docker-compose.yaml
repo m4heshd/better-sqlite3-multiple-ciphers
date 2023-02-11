@@ -1,0 +1,8 @@
+version: "3"
+
+services:
+  bs3mc-test:
+    build: .
+    image: m4heshd/bs3mc-test
+    container_name: bs3mc-test
+    restart: "no"

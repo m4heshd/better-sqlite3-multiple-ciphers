@@ -44,6 +44,7 @@
     "rebuild-release": "npm run lzz && npm run build-release",
     "rebuild-debug": "npm run lzz && npm run build-debug",
     "test": "mocha --exit --slow=75 --timeout=30000",
+    "test:container": "docker-compose up --detach --build",
     "benchmark": "node benchmark",
     "download": "bash ./deps/download.sh",
     "setup": "powershell ./deps/setup.ps1",
