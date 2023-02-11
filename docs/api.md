@@ -18,6 +18,8 @@
 - [Database#table()](#tablename-definition---this)
 - [Database#loadExtension()](#loadextensionpath-entrypoint---this)
 - [Database#exec()](#execstring---this)
+- [Database#key()](#keybuffer---number)
+- [Database#rekey()](#rekeybuffer---number)
 - [Database#close()](#close---this)
 - [Properties](#properties)
 
@@ -381,6 +383,31 @@ const migration = fs.readFileSync('migrate-schema.sql', 'utf8');
 db.exec(migration);
 ```
 
+### .key(*Buffer*) -> number
+
+Provide the key needed for decryption. Use this instead of `PRAGMA key` when your key is a binary byte array which could lead to a string which is not accepted by `PRAGMA key`. It directly uses the [sqlite3_key](https://www.zetetic.net/sqlcipher/sqlcipher-api/#sqlite3_key) function.
+
+It returns the result of sqlite3_key or throws an error.
+
+```js
+db.pragma(`cipher='aes256cbc'`)
+db.key(Buffer.from('password'));
+```
+
+### .rekey(*Buffer*) -> number
+
+Provide the key needed for re-encryption of the database. Use this instead of `PRAGMA rekey` when your key is a binary byte array which could lead to a string which is not accepted by `PRAGMA rekey`. It directly uses the [sqlite3_rekey](https://www.zetetic.net/sqlcipher/sqlcipher-api/#sqlite3_rekey) function.
+
+Before using this function you first need to use the key function to unlock the database.
+
+It returns the result of sqlite3_rekey or throws an error.
+
+```js
+db.pragma(`cipher='aes256cbc'`)
+db.key(Buffer.from('oldpassword'));
+db.rekey(Buffer.from('newpassword'));
+```
+
 ### .close() -> *this*
 
 Closes the database connection. After invoking this method, no statements can be created or executed.
@@ -657,3 +684,4 @@ Here is how `better-sqlite3` converts values between SQLite3 and JavaScript:
 |`INTEGER`|`number` [or `BigInt`](https://github.com/JoshuaWise/better-sqlite3/blob/master/docs/integer.md#the-bigint-primitive-type)|
 |`TEXT`|`string`|
 |`BLOB`|[`Buffer`](https://nodejs.org/api/buffer.html#buffer_class_buffer)|
+
