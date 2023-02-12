@@ -27,9 +27,19 @@ on:
         description: 'Test on macos-latest'
         type: boolean
         default: true
+      alpine:
+        description: 'Test on Alpine-Linux'
+        type: boolean
+      arm:
+        description: 'Test on Arm(v7/64) architectures'
+        type: boolean
+
+env:
+  TEST_COMMAND: npx --no-install prebuild -r ${{ inputs.runtime }} ${{ inputs.targets }} --include-regex 'better_sqlite3.node$'
 
 jobs:
   input-setup:
+    if: inputs['ubuntu-18.04'] == true || inputs['windows-2019'] == true || inputs['macos-latest'] == true
     name: Preparing tests
     runs-on: ubuntu-latest
     outputs:
@@ -60,4 +70,49 @@ jobs:
         with:
           node-version: 16
       - run: npm install --ignore-scripts
-      - run: npx --no-install prebuild -r ${{ inputs.runtime }} ${{ inputs.targets }} --include-regex 'better_sqlite3.node$'
+      - run: ${{ env.TEST_COMMAND }}
+      - if: matrix.os == 'macos-latest' && inputs.arm == true && inputs.runtime == 'electron'
+        run: ${{ env.TEST_COMMAND }} --arch arm64
+
+  prebuild-test-alpine-linux:
+    if: inputs.alpine == true
+    name: Testing prebuild on Alpine-Linux (x64)
+    runs-on: ubuntu-latest
+    container: node:16-alpine
+    steps:
+      - uses: actions/checkout@v2
+      - run: apk add build-base git python3 --update-cache
+      - run: npm install --ignore-scripts
+      - run: ${{ env.TEST_COMMAND }}
+
+  prebuild-test-alpine-linux-arm64:
+    if: inputs.alpine == true && inputs.arm == true
+    name: Testing prebuild on Alpine-Linux (arm64)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: docker/setup-qemu-action@v1
+      - run: |
+          docker run --rm -v $(pwd):/tmp/project --entrypoint /bin/sh --platform linux/arm64 node:16-alpine -c "\
+          apk add build-base git python3 --update-cache && \
+          cd /tmp/project && \
+          npm install --ignore-scripts && \
+          ${{ env.TEST_COMMAND }}"
+
+  prebuild-test-linux-arm:
+    if: inputs['ubuntu-18.04'] == true && inputs.arm == true
+    strategy:
+      matrix:
+        arch:
+          - arm/v7
+          - arm64
+    name: Testing prebuild on Linux (${{ matrix.arch }})
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: docker/setup-qemu-action@v1
+      - run: |
+          docker run --rm -v $(pwd):/tmp/project --entrypoint /bin/sh --platform linux/${{ matrix.arch }} node:16 -c "\
+          cd /tmp/project && \
+          npm install --ignore-scripts && \
+          ${{ env.TEST_COMMAND }}"
