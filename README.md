@@ -126,6 +126,8 @@ console.log(row.firstName, row.lastName, row.email);
 ```
 The same method should be used if you want to create a new encrypted database that can be opened using DB Browser for SQLite.
 
+You can also use [`key()`](https://github.com/m4heshd/better-sqlite3-multiple-ciphers/blob/master/docs/api.md#keybuffer---number) and [`rekey()`](https://github.com/m4heshd/better-sqlite3-multiple-ciphers/blob/master/docs/api.md#rekeybuffer---number) functions for encryption and decryption tasks.
+
 ### Read more about encryption at [SQLite3MultipleCiphers documentation](https://utelle.github.io/SQLite3MultipleCiphers/).
 
 ## Why should I use this instead of [node-sqlite3](https://github.com/mapbox/node-sqlite3)?

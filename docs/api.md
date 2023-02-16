@@ -385,7 +385,7 @@ db.exec(migration);
 
 ### .key(*Buffer*) -> number
 
-Provide the key needed for decryption. Use this instead of `PRAGMA key` when your key is a binary byte array which could lead to a string which is not accepted by `PRAGMA key`. It directly uses the [sqlite3_key](https://www.zetetic.net/sqlcipher/sqlcipher-api/#sqlite3_key) function.
+Decrypts or encrypts the database using provided key. Use this instead of `PRAGMA key` when your key is a binary byte array which could lead to a string which is not accepted by `PRAGMA key`. It directly uses the underlying [`sqlite3_key()`](https://utelle.github.io/SQLite3MultipleCiphers/docs/configuration/config_capi/#config_key) function.
 
 It returns the result of sqlite3_key or throws an error.
 
@@ -396,9 +396,9 @@ db.key(Buffer.from('password'));
 
 ### .rekey(*Buffer*) -> number
 
-Provide the key needed for re-encryption of the database. Use this instead of `PRAGMA rekey` when your key is a binary byte array which could lead to a string which is not accepted by `PRAGMA rekey`. It directly uses the [sqlite3_rekey](https://www.zetetic.net/sqlcipher/sqlcipher-api/#sqlite3_rekey) function.
+Encrypts or re-encrypts the database using provided key. Use this instead of `PRAGMA rekey` when your key is a binary byte array which could lead to a string which is not accepted by `PRAGMA rekey`. It directly uses the underlying [`sqlite3_rekey()`](https://utelle.github.io/SQLite3MultipleCiphers/docs/configuration/config_capi/#functions-sqlite3_rekey-and-sqlite3_rekey_v2) function.
 
-Before using this function you first need to use the key function to unlock the database.
+If the database is already encrypted, it requires you to decrypt the database first.
 
 It returns the result of sqlite3_rekey or throws an error.
 
@@ -684,4 +684,3 @@ Here is how `better-sqlite3` converts values between SQLite3 and JavaScript:
 |`INTEGER`|`number` [or `BigInt`](https://github.com/JoshuaWise/better-sqlite3/blob/master/docs/integer.md#the-bigint-primitive-type)|
 |`TEXT`|`string`|
 |`BLOB`|[`Buffer`](https://nodejs.org/api/buffer.html#buffer_class_buffer)|
-
