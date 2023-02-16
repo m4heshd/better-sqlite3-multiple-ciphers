@@ -8,7 +8,11 @@ WORKDIR /bs3mc
 COPY package.json .
 RUN npm install --ignore-scripts --no-audit
 
-COPY . .
+COPY binding.gyp .
+COPY deps ./deps
+COPY src ./src
 RUN npm run build-debug
+
+COPY . .
 
 CMD ["npm", "test"]
