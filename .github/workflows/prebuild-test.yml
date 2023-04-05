@@ -15,8 +15,8 @@ on:
         description: 'Runtime versions (targets)'
         required: true
         default: -t 18.0.0
-      ubuntu-18.04:
-        description: 'Test on ubuntu-18.04'
+      ubuntu-20.04:
+        description: 'Test on ubuntu-20.04'
         type: boolean
         default: true
       windows-2019:
@@ -39,7 +39,7 @@ env:
 
 jobs:
   input-setup:
-    if: inputs['ubuntu-18.04'] == true || inputs['windows-2019'] == true || inputs['macos-latest'] == true
+    if: inputs['ubuntu-20.04'] == true || inputs['windows-2019'] == true || inputs['macos-latest'] == true
     name: Preparing tests
     runs-on: ubuntu-latest
     outputs:
@@ -51,7 +51,7 @@ jobs:
           INPUTS='${{ toJSON(inputs) }}'
           PLATFORMS='{"os":[]}'
           
-          for os in 'ubuntu-18.04' 'windows-2019' 'macos-latest'
+          for os in 'ubuntu-20.04' 'windows-2019' 'macos-latest'
           do
             if [ "$(jq ".[\"$os\"]" <<< "$INPUTS")" = "true" ]; then PLATFORMS=$(jq -c ".os += [\"$os\"]" <<< "$PLATFORMS"); fi
           done
@@ -100,7 +100,7 @@ jobs:
           ${{ env.TEST_COMMAND }}"
 
   prebuild-test-linux-arm:
-    if: inputs['ubuntu-18.04'] == true && inputs.arm == true
+    if: inputs['ubuntu-20.04'] == true && inputs.arm == true
     strategy:
       matrix:
         arch:
