@@ -23,6 +23,7 @@ jobs:
           - 14
           - 16
           - 18
+          - 20
     name: Testing Node ${{ matrix.node }} on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     steps:
