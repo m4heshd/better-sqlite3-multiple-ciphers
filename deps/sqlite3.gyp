@@ -71,11 +71,9 @@
         }],
         ['target_arch=="arm64"', {
           'cflags!': ['-maes', '-msse4.2'],
-          'cflags': ['-march=native'],
         }],
         ['target_arch=="arm"', {
           'cflags!': ['-maes', '-msse4.2'],
-          'cflags': ['-march=native'],
         }],
       ],
       'configurations': {
