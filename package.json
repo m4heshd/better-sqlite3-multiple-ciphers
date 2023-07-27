@@ -29,8 +29,7 @@
     "nodemark": "^0.3.0",
     "prebuild": "^11.0.4",
     "sqlite": "^4.1.1",
-    "sqlite3": "^5.0.8",
-    "@types/better-sqlite3": "latest"
+    "sqlite3": "^5.0.8"
   },
   "overrides": {
     "prebuild": {
