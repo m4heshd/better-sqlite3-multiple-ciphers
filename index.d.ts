@@ -1,5 +1,5 @@
-// Type definitions for better-sqlite3 7.6
-// Project: https://github.com/JoshuaWise/better-sqlite3
+// Type definitions for better-sqlite3-multiple-ciphers 8.5.0
+// Project: https://github.com/m4heshd/better-sqlite3-multiple-ciphers
 // Definitions by: Ben Davies <https://github.com/Morfent>
 //                 Mathew Rumsey <https://github.com/matrumz>
 //                 Santiago Aguilar <https://github.com/sant123>
