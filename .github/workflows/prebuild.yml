@@ -12,6 +12,7 @@ env:
 jobs:
   prebuild:
     strategy:
+      fail-fast: false
       matrix:
         os:
           - ubuntu-20.04
@@ -57,6 +58,7 @@ jobs:
 
   prebuild-linux-arm:
     strategy:
+      fail-fast: false
       matrix:
         arch:
           - arm/v7
