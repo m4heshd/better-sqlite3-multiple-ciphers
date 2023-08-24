@@ -71,7 +71,7 @@ jobs:
           node-version: 16
       - run: npm install --ignore-scripts
       - run: ${{ env.TEST_COMMAND }}
-      - if: matrix.os == 'macos-latest' && inputs.arm == true && inputs.runtime == 'electron'
+      - if: matrix.os == 'macos-latest' && inputs.arm == true
         run: ${{ env.TEST_COMMAND }} --arch arm64
 
   prebuild-test-alpine-linux:
