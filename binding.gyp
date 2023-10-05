@@ -12,6 +12,7 @@
       'cflags_cc': ['-std=c++17'],
       'xcode_settings': {
         'OTHER_CPLUSPLUSFLAGS': ['-std=c++17', '-stdlib=libc++'],
+        'OTHER_LDFLAGS': ['-framework Security', '-framework Foundation'],
       },
       'msvs_settings': {
         'VCCLCompilerTool': {
