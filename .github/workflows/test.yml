@@ -29,6 +29,10 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
+      - if: ${{ startsWith(matrix.os, 'windows') }}
+        run: pip.exe install setuptools
+      - if: ${{ ! startsWith(matrix.os, 'windows') }}
+        run: python3 -m pip install setuptools
       - run: npm install --ignore-scripts
       - run: npm run build-debug
       - run: npm test
@@ -39,7 +43,7 @@ jobs:
     container: node:18-alpine
     steps:
       - uses: actions/checkout@v3
-      - run: apk add build-base git python3 --update-cache
+      - run: apk add build-base git python3 py3-setuptools --update-cache
       - run: npm install --ignore-scripts
       - run: npm run build-debug
       - run: npm test
@@ -52,7 +56,7 @@ jobs:
       - uses: docker/setup-qemu-action@v2
       - run: |
           docker run --rm -v $(pwd):/tmp/project --entrypoint /bin/sh --platform linux/arm64 node:18-alpine -c "\
-          apk add build-base git python3 --update-cache && \
+          apk add build-base git python3 py3-setuptools --update-cache && \
           cd /tmp/project && \
           npm install --ignore-scripts && \
           npm run build-debug && \
