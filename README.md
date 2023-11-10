@@ -4,7 +4,7 @@
 [![Downloads](https://img.shields.io/npm/dt/better-sqlite3-multiple-ciphers?logo=DocuSign&logoColor=FFF&color=2757c4&style=for-the-badge)](https://www.npmjs.com/package/better-sqlite3-multiple-ciphers)
 [![Build status](https://img.shields.io/github/actions/workflow/status/m4heshd/better-sqlite3-multiple-ciphers/test.yml?branch=master&label=Build%2FTest&logo=github&style=for-the-badge)](https://github.com/m4heshd/better-sqlite3-multiple-ciphers/actions/workflows/test.yml)
 
-The fastest and simplest library for SQLite3 in Node.js. This particular fork supports multiple-cipher encryption using [SQLite3MultipleCiphers](https://github.com/utelle/SQLite3MultipleCiphers) and is compatible with [SQLiteStudio](https://github.com/pawelsalawa/sqlitestudio) (modern open source SQLite visual editor). Check [usage](#usage) to learn more.
+The fastest and simplest library for SQLite3 in Node.js. This particular fork supports multiple-cipher encryption using [SQLite3MultipleCiphers](https://github.com/utelle/SQLite3MultipleCiphers). Check [usage](#usage) to learn more.
 
 - Full transaction support
 - High performance, efficiency, and safety
@@ -99,7 +99,7 @@ A database can be encrypted and decrypted simply using `key` and `rekey` `PRAGMA
 ```js
 const db = require('better-sqlite3-multiple-ciphers')('foobar.db', options);
 
-db.pragma("rekey='secret-key'");
+db.pragma(`rekey='secret-key'`);
 db.close();
 ```
 
@@ -108,8 +108,8 @@ db.close();
 ```js
 const db = require('better-sqlite3-multiple-ciphers')('foobar.db', options);
 
-db.pragma("key='secret-key'");
-const row = db.prepare("SELECT * FROM users WHERE id = ?").get(userId);
+db.pragma(`key='secret-key'`);
+const row = db.prepare('SELECT * FROM users WHERE id = ?').get(userId);
 console.log(row.firstName, row.lastName, row.email);
 ```
 
@@ -120,13 +120,24 @@ const db = require('better-sqlite3-multiple-ciphers')('foobar.db', options);
 
 db.pragma(`cipher='sqlcipher'`)
 db.pragma(`legacy=4`)
-db.pragma("key='secret-key'");
-const row = db.prepare("SELECT * FROM users WHERE id = ?").get(userId);
+db.pragma(`key='secret-key'`);
+const row = db.prepare('SELECT * FROM users WHERE id = ?').get(userId);
 console.log(row.firstName, row.lastName, row.email);
 ```
 The same method should be used if you want to create a new encrypted database that can be opened using DB Browser for SQLite.
 
 You can also use [`key()`](https://github.com/m4heshd/better-sqlite3-multiple-ciphers/blob/master/docs/api.md#keybuffer---number) and [`rekey()`](https://github.com/m4heshd/better-sqlite3-multiple-ciphers/blob/master/docs/api.md#rekeybuffer---number) functions for encryption and decryption tasks.
+
+**GUI database editors:**
+
+Even though `better-sqlite3-multiple-ciphers` supports opening databases created
+using [DB Browser for SQLite](https://github.com/sqlitebrowser/sqlitebrowser), it only supports creating/editing legacy
+SQLCipher databases which means, it's highly likely that you won't be able to open a database created
+using `better-sqlite3-multiple-ciphers` in DB Browser for SQLite.
+
+To visually edit databases created using `better-sqlite3-multiple-ciphers` regardless of the cipher configuration, it's
+recommended to use a tool like [SQLiteStudio](https://github.com/pawelsalawa/sqlitestudio) because it also
+uses [SQLite3MultipleCiphers](https://github.com/utelle/SQLite3MultipleCiphers) under the hood.
 
 ### Read more about encryption at [SQLite3MultipleCiphers documentation](https://utelle.github.io/SQLite3MultipleCiphers/).
 
