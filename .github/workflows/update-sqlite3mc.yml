@@ -40,12 +40,12 @@ jobs:
       - name: Push update branch
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          commit_message: 'Update `SQLite3MultipleCiphers` amalgamation to `${{ env.ENV_VERSION }}`'
+          commit_message: 'Update `SQLite3MultipleCiphers` to `${{ env.ENV_VERSION }}` (SQLite `${{ env.ENV_SQLITE_VERSION }}`)'
           branch: sqlite3mc-update-${{ env.ENV_VERSION }}
       - name: Create new PR
         uses: repo-sync/pull-request@v2
         with:
           github_token: ${{ secrets.ACTIONS_REPO_ACCESS }}
           source_branch: sqlite3mc-update-${{ env.ENV_VERSION }}
-          pr_title: 'Update `SQLite3MultipleCiphers` amalgamation to `${{ env.ENV_VERSION }}`'
-          pr_body: 'This is an automated pull request, updating `SQLite3MultipleCiphers` version to `${{ env.ENV_VERSION }}`.'
+          pr_title: 'Update `SQLite3MultipleCiphers` to `${{ env.ENV_VERSION }}` (SQLite `${{ env.ENV_SQLITE_VERSION }}`)'
+          pr_body: 'This is an automated pull request, updating `SQLite3MultipleCiphers` version to `${{ env.ENV_VERSION }}` with SQLite `${{ env.ENV_SQLITE_VERSION }}`.'
