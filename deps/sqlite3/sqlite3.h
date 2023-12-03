@@ -31,9 +31,9 @@
 
 #define SQLITE3MC_VERSION_MAJOR      1
 #define SQLITE3MC_VERSION_MINOR      8
-#define SQLITE3MC_VERSION_RELEASE    0
+#define SQLITE3MC_VERSION_RELEASE    1
 #define SQLITE3MC_VERSION_SUBRELEASE 0
-#define SQLITE3MC_VERSION_STRING     "SQLite3 Multiple Ciphers 1.8.0"
+#define SQLITE3MC_VERSION_STRING     "SQLite3 Multiple Ciphers 1.8.1"
 
 #endif /* SQLITE3MC_VERSION_H_ */
 /*** End of #include "sqlite3mc_version.h" ***/
@@ -192,9 +192,9 @@ extern "C" {
 ** [sqlite3_libversion_number()], [sqlite3_sourceid()],
 ** [sqlite_version()] and [sqlite_source_id()].
 */
-#define SQLITE_VERSION        "3.44.1"
-#define SQLITE_VERSION_NUMBER 3044001
-#define SQLITE_SOURCE_ID      "2023-11-22 14:18:12 d295f48e8f367b066b881780c98bdf980a1d550397d5ba0b0e49842c95b3e8b4"
+#define SQLITE_VERSION        "3.44.2"
+#define SQLITE_VERSION_NUMBER 3044002
+#define SQLITE_SOURCE_ID      "2023-11-24 11:41:44 ebead0e7230cd33bcec9f95d2183069565b9e709bf745c9b5db65cc0cbf92c0f"
 
 /*
 ** CAPI3REF: Run-Time Library Version Numbers
@@ -13389,7 +13389,7 @@ extern "C" {
 ** If the SQLITE_USER table is not present in the database file, then
 ** this interface is a harmless no-op returnning SQLITE_OK.
 */
-int sqlite3_user_authenticate(
+SQLITE_API int sqlite3_user_authenticate(
   sqlite3 *db,           /* The database connection */
   const char *zUsername, /* Username */
   const char *aPW,       /* Password or credentials */
@@ -13406,7 +13406,7 @@ int sqlite3_user_authenticate(
 ** for any ATTACH-ed databases.  Any call to sqlite3_user_add() by a
 ** non-admin user results in an error.
 */
-int sqlite3_user_add(
+SQLITE_API int sqlite3_user_add(
   sqlite3 *db,           /* Database connection */
   const char *zUsername, /* Username to be added */
   const char *aPW,       /* Password or credentials */
@@ -13421,7 +13421,7 @@ int sqlite3_user_add(
 ** credentials or admin privilege setting.  No user may change their own 
 ** admin privilege setting.
 */
-int sqlite3_user_change(
+SQLITE_API int sqlite3_user_change(
   sqlite3 *db,           /* Database connection */
   const char *zUsername, /* Username to change */
   const char *aPW,       /* New password or credentials */
@@ -13436,7 +13436,7 @@ int sqlite3_user_change(
 ** the database cannot be converted into a no-authentication-required
 ** database.
 */
-int sqlite3_user_delete(
+SQLITE_API int sqlite3_user_delete(
   sqlite3 *db,           /* Database connection */
   const char *zUsername  /* Username to remove */
 );
