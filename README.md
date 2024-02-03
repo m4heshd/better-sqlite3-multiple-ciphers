@@ -40,7 +40,9 @@ Also head over to [SQLite3MultipleCiphers](https://github.com/utelle/SQLite3Mult
 
 You can also support me (the maintainer of this fork) by buying me a coffee. 😊
 
-[![ko-fi](https://i.ibb.co/QmQknmc/ko-fi.png)](https://ko-fi.com/m4heshd)
+[![ko-fi](https://i.ibb.co/QmQknmc/ko-fi.png)](https://ko-fi.variatix.net/)
+
+[![Donate to m4heshd](https://i.ibb.co/8PgVcwK/Paypal.png)](https://paypal.variatix.net/)
 
 ## How other libraries compare
 
