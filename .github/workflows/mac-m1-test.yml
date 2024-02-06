@@ -1,0 +1,33 @@
+name: mac-m1-test
+
+on:
+  workflow_dispatch:
+    inputs:
+      runtime:
+        description: 'Prebuild runtime'
+        type: choice
+        required: true
+        default: node
+        options:
+          - node
+          - electron
+      targets:
+        description: 'Runtime versions (targets)'
+        required: true
+        default: -t 18.0.0
+
+env:
+  TEST_COMMAND: npx --no-install prebuild -r ${{ inputs.runtime }} ${{ inputs.targets }} --include-regex 'better_sqlite3.node$'
+
+jobs:
+  prebuild-test:
+    name: Testing prebuild on macos-14 (M1)
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 16
+      - run: python3 -m pip install setuptools
+      - run: npm install --ignore-scripts
+      - run: ${{ env.TEST_COMMAND }}
