@@ -78,6 +78,19 @@ jobs:
       - if: matrix.os == 'macos-latest' && inputs.arm == true
         run: ${{ env.TEST_COMMAND }} --arch arm64
 
+  prebuild-test-mac-arm64:
+    if: inputs.macos-latest == true && inputs.arm == true
+    name: Testing prebuild M1 macOS (arm64)
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 16
+      - run: python3 -m pip install setuptools
+      - run: npm install --ignore-scripts
+      - run: ${{ env.TEST_COMMAND }}
+
   prebuild-test-alpine-linux:
     if: inputs.alpine == true
     name: Testing prebuild on Alpine-Linux (x64)

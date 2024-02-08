@@ -17,6 +17,7 @@ jobs:
         os:
           - ubuntu-20.04
           - macos-latest
+          - macos-14
           - windows-2019
     name: Prebuild on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
@@ -36,10 +37,6 @@ jobs:
         run: |
           ${{ env.NODE_BUILD_CMD }} --arch ia32
           ${{ env.ELECTRON_BUILD_CMD }} --arch ia32
-      - if: matrix.os == 'macos-latest'
-        run: |
-          ${{ env.NODE_BUILD_CMD }} --arch arm64
-          ${{ env.ELECTRON_BUILD_CMD }} --arch arm64
 
   prebuild-alpine-linux:
     name: Prebuild on Alpine-Linux (x64)
