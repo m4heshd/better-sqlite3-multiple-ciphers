@@ -1,12 +1,12 @@
 {
   "name": "better-sqlite3-multiple-ciphers",
-  "version": "9.4.0",
+  "version": "9.4.1",
   "description": "better-sqlite3 with multiple-cipher encryption support",
-  "homepage": "https://github.com/m4heshd/better-sqlite3-multiple-ciphers",
+  "homepage": "https://github.com/thecodrr/better-sqlite3-multiple-ciphers",
   "author": "Mahesh Bandara Wijerathna (m4heshd) <m4heshd@gmail.com>",
   "repository": {
     "type": "git",
-    "url": "git://github.com/m4heshd/better-sqlite3-multiple-ciphers.git"
+    "url": "git://github.com/thecodrr/better-sqlite3-multiple-ciphers.git"
   },
   "main": "lib/index.js",
   "types": "index.d.ts",
