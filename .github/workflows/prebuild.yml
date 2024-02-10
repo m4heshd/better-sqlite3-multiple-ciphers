@@ -35,8 +35,8 @@ jobs:
       - run: ${{ env.ELECTRON_BUILD_CMD }}
       - if: matrix.os == 'windows-2019'
         run: |
-          ${{ env.NODE_BUILD_CMD }} --arch ia32
-          ${{ env.ELECTRON_BUILD_CMD }} --arch ia32
+          ${{ env.NODE_BUILD_CMD }} --arch ia32 arm64
+          ${{ env.ELECTRON_BUILD_CMD }} --arch ia32 arm64
 
   prebuild-alpine-linux:
     name: Prebuild on Alpine-Linux (x64)
@@ -47,6 +47,7 @@ jobs:
       - run: apk add build-base git python3 py3-setuptools --update-cache
       - run: npm install --ignore-scripts
       - run: ${{ env.NODE_BUILD_CMD }}
+      - run: ${{ env.ELECTRON_BUILD_CMD }}
 
   prebuild-alpine-linux-arm64:
     name: Prebuild on Alpine-Linux (arm64)
@@ -59,7 +60,8 @@ jobs:
           apk add build-base git python3 py3-setuptools --update-cache && \
           cd /tmp/project && \
           npm install --ignore-scripts && \
-          ${{ env.NODE_BUILD_CMD }}"
+          ${{ env.NODE_BUILD_CMD }} && \
+          ${{ env.ELECTRON_BUILD_CMD }}"
 
   prebuild-linux-arm:
     strategy:
@@ -77,4 +79,5 @@ jobs:
           docker run --rm -v $(pwd):/tmp/project --entrypoint /bin/sh --platform linux/${{ matrix.arch }} node:16 -c "\
           cd /tmp/project && \
           npm install --ignore-scripts && \
-          ${{ env.NODE_BUILD_CMD }}"
+          ${{ env.NODE_BUILD_CMD }} && \
+          ${{ env.ELECTRON_BUILD_CMD }}"
