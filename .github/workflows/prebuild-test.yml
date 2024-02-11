@@ -75,7 +75,7 @@ jobs:
         run: python3 -m pip install setuptools
       - run: npm install --ignore-scripts
       - run: ${{ env.TEST_COMMAND }}
-      - if: matrix.os == 'macos-latest' && inputs.arm == true
+      - if: matrix.os == 'windows-2019' && inputs.arm == true
         run: ${{ env.TEST_COMMAND }} --arch arm64
 
   prebuild-test-mac-arm64:
