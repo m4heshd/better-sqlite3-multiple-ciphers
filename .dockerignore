@@ -7,4 +7,5 @@ node_modules
 # Project
 .github
 benchmark
+build
 docs
