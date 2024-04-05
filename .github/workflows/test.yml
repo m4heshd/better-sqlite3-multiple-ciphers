@@ -44,9 +44,9 @@ jobs:
           node -e "require('./lib/index.js')(':memory:').loadExtension('mod_spatialite').exec('SELECT InitSpatialMetaData();')"
 
   test-alpine-linux:
-    name: Testing Node 18 on Alpine-Linux
+    name: Testing Node 20 on Alpine-Linux
     runs-on: ubuntu-latest
-    container: node:18-alpine
+    container: node:20-alpine
     steps:
       - uses: actions/checkout@v4
       - run: apk add build-base git python3 py3-setuptools --update-cache
@@ -55,13 +55,13 @@ jobs:
       - run: npm test
 
   test-alpine-linux-arm64:
-    name: Testing Node 18 on Alpine-Linux (arm64)
+    name: Testing Node 20 on Alpine-Linux (arm64)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: docker/setup-qemu-action@v2
       - run: |
-          docker run --rm -v $(pwd):/tmp/project --entrypoint /bin/sh --platform linux/arm64 node:18-alpine -c "\
+          docker run --rm -v $(pwd):/tmp/project --entrypoint /bin/sh --platform linux/arm64 node:20-alpine -c "\
           apk add build-base git python3 py3-setuptools --update-cache && \
           cd /tmp/project && \
           npm install --ignore-scripts && \
@@ -75,13 +75,13 @@ jobs:
         arch:
           - arm/v7
           - arm64
-    name: Testing Node 18 on Linux (${{ matrix.arch }})
+    name: Testing Node 20 on Linux (${{ matrix.arch }})
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: docker/setup-qemu-action@v2
       - run: |
-          docker run --rm -v $(pwd):/tmp/project --entrypoint /bin/sh --platform linux/${{ matrix.arch }} node:18 -c "\
+          docker run --rm -v $(pwd):/tmp/project --entrypoint /bin/sh --platform linux/${{ matrix.arch }} node:20 -c "\
           cd /tmp/project && \
           npm install --ignore-scripts && \
           npm run build-debug && \
