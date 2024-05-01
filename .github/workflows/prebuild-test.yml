@@ -71,7 +71,9 @@ jobs:
           node-version: 16
       - if: ${{ startsWith(matrix.os, 'windows') }}
         run: pip.exe install setuptools
-      - if: ${{ ! startsWith(matrix.os, 'windows') }}
+      - if: ${{ startsWith(matrix.os, 'macos') }}
+        run: brew install python-setuptools
+      - if: ${{ !startsWith(matrix.os, 'windows') && !startsWith(matrix.os, 'macos') }}
         run: python3 -m pip install setuptools
       - run: npm install --ignore-scripts
       - run: ${{ env.TEST_COMMAND }}
