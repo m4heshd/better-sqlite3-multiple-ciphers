@@ -60,6 +60,7 @@ jobs:
 
   prebuild-test:
     strategy:
+      fail-fast: false
       matrix: ${{ fromJSON(needs.input-setup.outputs.platforms) }}
     name: Testing prebuild on ${{ matrix.os }}
     needs: input-setup
@@ -121,6 +122,7 @@ jobs:
   prebuild-test-linux-arm:
     if: inputs['ubuntu-20.04'] == true && inputs.arm == true
     strategy:
+      fail-fast: false
       matrix:
         arch:
           - arm/v7
