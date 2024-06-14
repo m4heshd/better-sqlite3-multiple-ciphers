@@ -31,9 +31,9 @@
 
 #define SQLITE3MC_VERSION_MAJOR      1
 #define SQLITE3MC_VERSION_MINOR      8
-#define SQLITE3MC_VERSION_RELEASE    5
+#define SQLITE3MC_VERSION_RELEASE    6
 #define SQLITE3MC_VERSION_SUBRELEASE 0
-#define SQLITE3MC_VERSION_STRING     "SQLite3 Multiple Ciphers 1.8.5"
+#define SQLITE3MC_VERSION_STRING     "SQLite3 Multiple Ciphers 1.8.6"
 
 #endif /* SQLITE3MC_VERSION_H_ */
 /*** End of #include "sqlite3mc_version.h" ***/
@@ -13543,7 +13543,7 @@ SQLITE_API int sqlite3_user_add(
 ** The sqlite3_user_change() interface can be used to change a users
 ** login credentials or admin privilege.  Any user can change their own
 ** login credentials.  Only an admin user can change another users login
-** credentials or admin privilege setting.  No user may change their own 
+** credentials or admin privilege setting.  No user may change their own
 ** admin privilege setting.
 */
 SQLITE_API int sqlite3_user_change(
@@ -13777,6 +13777,7 @@ extern "C" {
 #ifndef SQLITE_PRIVATE
 #define SQLITE_PRIVATE
 #endif
+
 SQLITE_PRIVATE int sqlite3mcCheckVfs(const char* zVfs);
 
 SQLITE_API int sqlite3mc_vfs_create(const char* zVfsReal, int makeDefault);
