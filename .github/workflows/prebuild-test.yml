@@ -23,8 +23,8 @@ on:
         description: 'Test on windows-2019'
         type: boolean
         default: true
-      macos-latest:
-        description: 'Test on macos-latest'
+      macos-13:
+        description: 'Test on macos-13'
         type: boolean
         default: true
       alpine:
@@ -39,7 +39,7 @@ env:
 
 jobs:
   input-setup:
-    if: inputs['ubuntu-20.04'] == true || inputs['windows-2019'] == true || inputs['macos-latest'] == true
+    if: inputs['ubuntu-20.04'] == true || inputs['windows-2019'] == true || inputs['macos-13'] == true
     name: Preparing tests
     runs-on: ubuntu-latest
     outputs:
@@ -51,7 +51,7 @@ jobs:
           INPUTS='${{ toJSON(inputs) }}'
           PLATFORMS='{"os":[]}'
           
-          for os in 'ubuntu-20.04' 'windows-2019' 'macos-latest'
+          for os in 'ubuntu-20.04' 'windows-2019' 'macos-13'
           do
             if [ "$(jq ".[\"$os\"]" <<< "$INPUTS")" = "true" ]; then PLATFORMS=$(jq -c ".os += [\"$os\"]" <<< "$PLATFORMS"); fi
           done
@@ -82,7 +82,7 @@ jobs:
         run: ${{ env.TEST_COMMAND }} --arch arm64
 
   prebuild-test-mac-arm64:
-    if: inputs.macos-latest == true && inputs.arm == true
+    if: inputs.macos-13 == true && inputs.arm == true
     name: Testing prebuild M1 macOS (arm64)
     runs-on: macos-14
     steps:
