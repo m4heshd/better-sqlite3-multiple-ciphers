@@ -1,5 +1,7 @@
 name: prebuild-test
 
+run-name: Prebuild tests (${{ inputs.runtime }} [${{ inputs.targets }}])
+
 on:
   workflow_dispatch:
     inputs:
