@@ -1,5 +1,7 @@
 name: update-sqlite3mc
 
+run-name: SQLite3MC update PR for ${{ inputs.version }} (SQLite ${{ inputs.sqlite_version }})
+
 on:
   workflow_dispatch:
     inputs:
