@@ -9,17 +9,17 @@
       'target_name': 'better_sqlite3',
       'dependencies': ['deps/sqlite3.gyp:sqlite3'],
       'sources': ['src/better_sqlite3.cpp'],
-      'cflags_cc': ['-std=c++17'],
+      'cflags_cc': ['-std=c++20'],
       'xcode_settings': {
-        'OTHER_CPLUSPLUSFLAGS': ['-std=c++17', '-stdlib=libc++'],
+        'OTHER_CPLUSPLUSFLAGS': ['-std=c++20', '-stdlib=libc++'],
         'OTHER_LDFLAGS': ['-framework Security'],
       },
       'msvs_settings': {
         'VCCLCompilerTool': {
           'AdditionalOptions': [
-            '/std:c++17'
-          ]
-        }
+            '/std:c++20',
+          ],
+        },
       },
       'conditions': [
         ['OS=="linux"', {
