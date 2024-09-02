@@ -19,7 +19,7 @@ type ArgumentTypes<F extends VariableArgFunction> = F extends (...args: infer A)
 type ElementOf<T> = T extends Array<infer E> ? E : T;
 
 declare namespace BetterSqlite3MultipleCiphers {
-    interface Statement<BindParameters extends unknown[]> {
+    interface Statement<BindParameters extends unknown[], Result = unknown> {
         database: Database;
         source: string;
         reader: boolean;
@@ -27,9 +27,9 @@ declare namespace BetterSqlite3MultipleCiphers {
         busy: boolean;
 
         run(...params: BindParameters): Database.RunResult;
-        get(...params: BindParameters): unknown;
-        all(...params: BindParameters): unknown[];
-        iterate(...params: BindParameters): IterableIterator<unknown>;
+        get(...params: BindParameters): Result | undefined;
+        all(...params: BindParameters): Result[];
+        iterate(...params: BindParameters): IterableIterator<Result>;
         pluck(toggleState?: boolean): this;
         expand(toggleState?: boolean): this;
         raw(toggleState?: boolean): this;
@@ -69,9 +69,9 @@ declare namespace BetterSqlite3MultipleCiphers {
         open: boolean;
         inTransaction: boolean;
 
-        prepare<BindParameters extends unknown[] | {} = unknown[]>(
+        prepare<BindParameters extends unknown[] | {} = unknown[], Result = unknown>(
             source: string,
-        ): BindParameters extends unknown[] ? Statement<BindParameters> : Statement<[BindParameters]>;
+        ): BindParameters extends unknown[] ? Statement<BindParameters, Result> : Statement<[BindParameters], Result>;
         transaction<F extends VariableArgFunction>(fn: F): Transaction<F>;
         exec(source: string): this;
         key(key: Buffer): number;
@@ -79,12 +79,15 @@ declare namespace BetterSqlite3MultipleCiphers {
         pragma(source: string, options?: Database.PragmaOptions): unknown;
         function(name: string, cb: (...params: unknown[]) => unknown): this;
         function(name: string, options: Database.RegistrationOptions, cb: (...params: unknown[]) => unknown): this;
-        aggregate<T>(name: string, options: Database.RegistrationOptions & {
-            start?: T | (() => T);
-            step: (total: T, next: ElementOf<T>) => T | void;
-            inverse?: ((total: T, dropped: T) => T) | undefined;
-            result?: ((total: T) => unknown) | undefined;
-        }): this;
+        aggregate<T>(
+            name: string,
+            options: Database.RegistrationOptions & {
+                start?: T | (() => T);
+                step: (total: T, next: ElementOf<T>) => T | void;
+                inverse?: ((total: T, dropped: T) => T) | undefined;
+                result?: ((total: T) => unknown) | undefined;
+            },
+        ): this;
         loadExtension(path: string): this;
         close(): this;
         defaultSafeIntegers(toggleState?: boolean): this;
@@ -95,7 +98,7 @@ declare namespace BetterSqlite3MultipleCiphers {
     }
 
     interface DatabaseConstructor {
-        new (filename: string | Buffer, options?: Database.Options): Database;
+        new(filename: string | Buffer, options?: Database.Options): Database;
         (filename: string, options?: Database.Options): Database;
         prototype: Database;
 
@@ -150,10 +153,9 @@ declare namespace Database {
     }
 
     type SqliteError = typeof SqliteError;
-    type Statement<BindParameters extends unknown[] | {} = unknown[]> = BindParameters extends unknown[]
-        ? BetterSqlite3MultipleCiphers.Statement<BindParameters>
-        : BetterSqlite3MultipleCiphers.Statement<[BindParameters]>;
-    type ColumnDefinition = BetterSqlite3MultipleCiphers.ColumnDefinition;
+    type Statement<BindParameters extends unknown[] | {} = unknown[], Result = unknown> = BindParameters extends unknown[] ?
+        BetterSqlite3MultipleCiphers.Statement<BindParameters, Result> :
+        BetterSqlite3MultipleCiphers.Statement<[BindParameters], Result>;
     type Transaction<T extends VariableArgFunction = VariableArgFunction> = BetterSqlite3MultipleCiphers.Transaction<T>;
     type Database = BetterSqlite3MultipleCiphers.Database;
 }
