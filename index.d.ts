@@ -1,4 +1,4 @@
-// Type definitions for better-sqlite3-multiple-ciphers 11.2.1
+// Type definitions for better-sqlite3-multiple-ciphers 11.8.0
 // Project: https://github.com/m4heshd/better-sqlite3-multiple-ciphers
 // Definitions by: Ben Davies <https://github.com/Morfent>
 //                 Mathew Rumsey <https://github.com/matrumz>
@@ -102,17 +102,18 @@ declare namespace BetterSqlite3MultipleCiphers {
         new(filename?: string | Buffer, options?: Database.Options): Database;
         (filename?: string, options?: Database.Options): Database;
         prototype: Database;
-
-        SqliteError: typeof SqliteError;
+        SqliteError: SqliteErrorType;
     }
 }
 
-declare class SqliteError extends Error {
+declare class SqliteErrorClass extends Error {
     name: string;
     message: string;
     code: string;
     constructor(message: string, code: string);
 }
+
+type SqliteErrorType = typeof SqliteErrorClass;
 
 declare namespace Database {
     interface RunResult {
@@ -153,7 +154,7 @@ declare namespace Database {
         progress: (info: BackupMetadata) => number;
     }
 
-    type SqliteError = typeof SqliteError;
+    type SqliteError = SqliteErrorType;
     type Statement<BindParameters extends unknown[] | {} = unknown[], Result = unknown> = BindParameters extends unknown[] ?
         BetterSqlite3MultipleCiphers.Statement<BindParameters, Result> :
         BetterSqlite3MultipleCiphers.Statement<[BindParameters], Result>;
