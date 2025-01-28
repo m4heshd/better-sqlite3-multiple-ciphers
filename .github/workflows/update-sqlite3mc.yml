@@ -8,20 +8,26 @@ on:
       version:
         description: 'SQLite3MultipleCiphers version (prefixed with "v")'
         required: true
+      sqlite_release_year:
+        description: 'SQLite release year'
+        default: '2025'
+        required: true
       sqlite_version:
         description: 'SQLite version'
+        required: true
+      sqlite_version_enc:
+        description: 'SQLite version (encoded)'
         required: true
 
 jobs:
   download-and-update:
     name: Download and update SQLite3MultipleCiphers
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: pwsh
     env:
       ENV_VERSION: ${{ github.event.inputs.version }}
+      ENV_SQLITE_RELEASE_YEAR: ${{ github.event.inputs.sqlite_release_year }}
       ENV_SQLITE_VERSION: ${{ github.event.inputs.sqlite_version }}
+      ENV_SQLITE_VERSION_ENC: ${{ github.event.inputs.sqlite_version_enc }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -31,14 +37,13 @@ jobs:
           node-version: 18
       - name: Create new update branch
         run: git checkout -b sqlite3mc-update-${{ env.ENV_VERSION }}
-      - name: Update setup script and docs
+      - name: Update update-sqlite3mc script
         run: |
-          (get-content deps\setup.ps1) | %{$_ -replace 'SQLITEMC_VER = "v[0-9]+.[0-9]+.[0-9]+"', 'SQLITEMC_VER = "${{ env.ENV_VERSION }}"'} | Set-Content deps\setup.ps1
-          (get-content docs\compilation.md) | %{$_ -replace 'version [0-9]+.[0-9]+.[0-9]+', 'version ${{ env.ENV_SQLITE_VERSION }}'} | Set-Content docs\compilation.md
-      - name: Download and package SQLite3MultipleCiphers
-        run: |
-          cd deps
-          .\setup.ps1
+          sed -Ei "s/YEAR=\"[0-9]+\"/YEAR=\"${{ env.ENV_SQLITE_RELEASE_YEAR }}\"/g" ./deps/update-sqlite3mc.sh
+          sed -Ei "s/VERSION=\"[0-9]+\"/VERSION=\"${{ env.ENV_SQLITE_VERSION_ENC }}\"/g" ./deps/update-sqlite3mc.sh
+          sed -Ei "s/SQLITE3MC_VERSION=\"v[0-9]+.[0-9]+.[0-9]+\"/SQLITE3MC_VERSION=\"${{ env.ENV_VERSION }}\"/g" ./deps/update-sqlite3mc.sh
+      - name: Download, build and package SQLite and SQLite3MC
+        run: npm run update-sqlite3mc
       - name: Push update branch
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
