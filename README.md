@@ -40,6 +40,12 @@ Also head over to [SQLite3MultipleCiphers](https://github.com/utelle/SQLite3Mult
 
 You can also support me (the author/maintainer of this fork) by buying me a coffee. 😊
 
+**Wise is the preferred method for donations because PayPal takes a huge chunk (~22%) off of every donation _(ko-fi also uses PayPal)_.**
+
+[![Donate to m4heshd on Wise](https://i.ibb.co/s9nT2hfp/donate-on-wise.png)](https://wise.variatix.net/)
+
+Other donation methods:
+
 [![ko-fi](https://i.ibb.co/QmQknmc/ko-fi.png)](https://ko-fi.variatix.net/)
 
 [![Donate to m4heshd](https://i.ibb.co/8PgVcwK/Paypal.png)](https://paypal.variatix.net/)
