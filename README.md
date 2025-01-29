@@ -168,6 +168,13 @@ If you have a performance problem, the most likely causes are inefficient querie
 
 For these situations, you should probably use a full-fledged RDBMS such as [PostgreSQL](https://www.postgresql.org/).
 
+## Upgrading
+
+Upgrading your `better-sqlite3-multiple-ciphers` dependency can potentially introduce breaking changes, either in the `better-sqlite3-multiple-ciphers` API, or between your existing database(s) and the underlying version of SQLite.  Before upgrading, review:
+
+* `better-sqlite3-multiple-ciphers` release notes: https://github.com/WiseLibs/better-sqlite3-multiple-ciphers/releases
+* SQLite changelog: https://www.sqlite.org/changes.html
+
 # Documentation
 
 - [API documentation](./docs/api.md)
