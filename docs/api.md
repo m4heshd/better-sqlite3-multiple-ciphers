@@ -39,7 +39,7 @@ Various options are accepted:
 
 - `options.verbose`: provide a function that gets called with every SQL string executed by the database connection (default: `null`).
 
-- `options.nativeBinding`: if you're using a complicated build system that moves, transforms, or concatenates your JS files, `better-sqlite3-multiple-ciphers` might have trouble locating its native C++ addon (`better_sqlite3.node`). If you get an error that looks like [this](https://github.com/JoshuaWise/better-sqlite3/issues/146#issue-337752663), you can solve it by using this option to provide the file path of `better_sqlite3.node` (relative to the current working directory).
+- `options.nativeBinding`: if you're using a complicated build system that moves, transforms, or concatenates your JS files, `better-sqlite3-multiple-ciphers` might have trouble locating its native C++ addon (`better_sqlite3.node`). If you get an error that looks like [this](https://github.com/JoshuaWise/better-sqlite3/issues/534#issuecomment-757907190), you can solve it by using this option to provide the file path of `better_sqlite3.node` (relative to the current working directory).
 
 ```js
 const Database = require('better-sqlite3-multiple-ciphers');
@@ -100,9 +100,9 @@ Any arguments passed to the transaction function will be forwarded to the wrappe
 
 If you'd like to manage transactions manually, you're free to do so with regular [prepared statements](#preparestring---statement) (using `BEGIN`, `COMMIT`, etc.). However, manually managed transactions should not be mixed with transactions managed by this `.transaction()` method. In other words, using raw `COMMIT` or `ROLLBACK` statements inside a transaction function is not supported.
 
-Transaction functions do not work with async functions. Technically speaking, async functions always return after the first `await`, which means the transaction will already be committed before any async code executes. Also, because SQLite3 serializes all transactions, it's generally a very bad idea to keep a transaction open across event loop ticks anyways.
+Transaction functions do not work with async functions. Technically speaking, async functions always return after the first `await`, which means the transaction will already be committed before any async code executes. Also, because SQLite serializes all transactions, it's generally a very bad idea to keep a transaction open across event loop ticks anyways.
 
-It's important to know that SQLite3 may sometimes rollback a transaction without us asking it to. This can happen either because of an [`ON CONFLICT`](https://sqlite.org/lang_conflict.html) clause, the [`RAISE()`](https://www.sqlite.org/lang_createtrigger.html) trigger function, or certain errors such as `SQLITE_FULL` or `SQLITE_BUSY`. In other words, if you catch an SQLite3 error *within* a transaction, you must be aware that any further SQL that you execute might not be within the same transaction. Usually, the best course of action for such cases is to simply re-throw the error, exiting the transaction function.
+It's important to know that SQLite may sometimes rollback a transaction without us asking it to. This can happen either because of an [`ON CONFLICT`](https://sqlite.org/lang_conflict.html) clause, the [`RAISE()`](https://www.sqlite.org/lang_createtrigger.html) trigger function, or certain errors such as `SQLITE_FULL` or `SQLITE_BUSY`. In other words, if you catch an SQLite error *within* a transaction, you must be aware that any further SQL that you execute might not be within the same transaction. Usually, the best course of action for such cases is to simply re-throw the error, exiting the transaction function.
 
 ```js
 try {
@@ -126,11 +126,11 @@ console.log(db.pragma('cache_size', { simple: true })); // => 32000
 
 If execution of the PRAGMA fails, an `Error` is thrown.
 
-It's better to use this method instead of normal [prepared statements](#preparestring---statement) when executing PRAGMA, because this method normalizes some odd behavior that may otherwise be experienced. The documentation on SQLite3 PRAGMA can be found [here](https://www.sqlite.org/pragma.html).
+It's better to use this method instead of normal [prepared statements](#preparestring---statement) when executing PRAGMA, because this method normalizes some odd behavior that may otherwise be experienced. The documentation on SQLite PRAGMA can be found [here](https://www.sqlite.org/pragma.html).
 
 ### .backup(*destination*, [*options*]) -> *promise*
 
-Initiates a [backup](https://www.sqlite.org/backup.html) of the database, returning a [promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises) for when the backup is complete. If the backup fails, the promise will be rejected with an `Error`. You can optionally backup an attached database instead by setting the `attached` option to the name of the desired attached database. A backup file is just a regular SQLite3 database file. It can be opened by [`new Database()`](#new-databasepath-options) just like any SQLite3 database.
+Initiates a [backup](https://www.sqlite.org/backup.html) of the database, returning a [promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises) for when the backup is complete. If the backup fails, the promise will be rejected with an `Error`. You can optionally backup an attached database instead by setting the `attached` option to the name of the desired attached database. A backup file is just a regular SQLite database file. It can be opened by [`new Database()`](#new-databasepath-options) just like any SQLite database.
 
 ```js
 db.backup(`backup-${Date.now()}.db`)
@@ -167,7 +167,7 @@ db.backup(`backup-${Date.now()}.db`, {
 
 Returns a [buffer](https://nodejs.org/api/buffer.html#buffer_class_buffer) containing the serialized contents of the database. You can optionally serialize an attached database instead by setting the `attached` option to the name of the desired attached database.
 
-The returned buffer can be written to disk to create a regular SQLite3 database file, or it can be opened directly as an in-memory database by passing it to [`new Database()`](#new-databasepath-options).
+The returned buffer can be written to disk to create a regular SQLite database file, or it can be opened directly as an in-memory database by passing it to [`new Database()`](#new-databasepath-options).
 
 ```js
 const buffer = db.serialize();
@@ -187,7 +187,7 @@ db.prepare('SELECT add2(?, ?)').pluck().get('foo', 'bar'); // => "foobar"
 db.prepare('SELECT add2(?, ?, ?)').pluck().get(12, 4, 18); // => Error: wrong number of arguments
 ```
 
-By default, user-defined functions have a strict number of arguments (determined by `function.length`). You can register multiple functions of the same name, each with a different number of arguments, causing SQLite3 to execute a different function depending on how many arguments were passed to it. If you register two functions with same name and the same number of arguments, the second registration will erase the first one.
+By default, user-defined functions have a strict number of arguments (determined by `function.length`). You can register multiple functions of the same name, each with a different number of arguments, causing SQLite to execute a different function depending on how many arguments were passed to it. If you register two functions with same name and the same number of arguments, the second registration will erase the first one.
 
 If `options.varargs` is `true`, the registered function can accept any number of arguments.
 
@@ -233,7 +233,7 @@ db.aggregate('getAverage', {
 db.prepare('SELECT getAverage(dollars) FROM expenses').pluck().get(); // => 20.2
 ```
 
-As shown above, you can use arbitrary JavaScript objects as your aggregation context, as long as a valid SQLite3 value is returned by `result()` in the end. If `step()` doesn't return anything (`undefined`), the aggregate value will not be replaced (be careful of this when using functions that return `undefined` when `null` is desired).
+As shown above, you can use arbitrary JavaScript objects as your aggregation context, as long as a valid SQLite value is returned by `result()` in the end. If `step()` doesn't return anything (`undefined`), the aggregate value will not be replaced (be careful of this when using functions that return `undefined` when `null` is desired).
 
 Just like regular [user-defined functions](#functionname-options-function---this), user-defined aggregates can accept multiple arguments. Furthermore, `options.varargs`, `options.directOnly`, and `options.deterministic` [are also](#functionname-options-function---this) accepted.
 
@@ -360,7 +360,7 @@ db.exec('CREATE VIRTUAL TABLE my_data USING csv(my_data.csv)');
 const allData = db.prepare('SELECT * FROM my_data').all();
 ```
 
-The factory function will be invoked each time a corresponding `CREATE VIRTUAL TABLE` statement runs. The arguments to the factory function correspond to the module arguments passed in the `CREATE VIRTUAL TABLE` statement; always a list of arbitrary strings separated by commas. It's your responsibility to parse and interpret those module arguments. Note that SQLite3 does not allow [bound parameters](#binding-parameters) inside module arguments.
+The factory function will be invoked each time a corresponding `CREATE VIRTUAL TABLE` statement runs. The arguments to the factory function correspond to the module arguments passed in the `CREATE VIRTUAL TABLE` statement; always a list of arbitrary strings separated by commas. It's your responsibility to parse and interpret those module arguments. Note that SQLite does not allow [bound parameters](#binding-parameters) inside module arguments.
 
 Just like [user-defined functions](#functionname-options-function---this) and [user-defined aggregates](#aggregatename-options---this), virtual tables support `options.directOnly`, which prevents the table from being used inside [VIEWs](https://sqlite.org/lang_createview.html), [TRIGGERs](https://sqlite.org/lang_createtrigger.html), or schema structures such as [CHECK constraints](https://www.sqlite.org/lang_createtable.html#ckconst), [DEFAULT clauses](https://www.sqlite.org/lang_createtable.html#dfltval), etc.
 
@@ -368,9 +368,9 @@ Just like [user-defined functions](#functionname-options-function---this) and [u
 
 ### .loadExtension(*path*, [*entryPoint*]) -> *this*
 
-Loads a compiled [SQLite3 extension](https://sqlite.org/loadext.html) and applies it to the current database connection.
+Loads a compiled [SQLite extension](https://sqlite.org/loadext.html) and applies it to the current database connection.
 
-It's your responsibility to make sure the extensions you load are compiled/linked against a version of [SQLite3](https://www.sqlite.org/) that is compatible with `better-sqlite3-multiple-ciphers`. Keep in mind that new versions of `better-sqlite3-multiple-ciphers` will periodically use newer versions of [SQLite3](https://www.sqlite.org/). You can see which version is being used [here](./compilation.md#bundled-configuration).
+It's your responsibility to make sure the extensions you load are compiled/linked against a version of [SQLite](https://www.sqlite.org/) that is compatible with `better-sqlite3-multiple-ciphers`. Keep in mind that new versions of `better-sqlite3-multiple-ciphers` will periodically use newer versions of [SQLite](https://www.sqlite.org/). You can see which version is being used [here](./compilation.md#bundled-configuration).
 
 ```js
 db.loadExtension('./my-extensions/compress.so');
@@ -448,7 +448,7 @@ An object representing a single SQL statement.
 - [Statement#bind()](#bindbindparameters---this)
 - [Properties](#properties-1)
 
-> NOTE: Statements are [finalized](https://www.sqlite.org/c3ref/finalize.html) when garbage collected so there is no explicit API for it. Statements are also finalized when the associated database is closed.
+> NOTE: If you've used the [SQLite C API](https://www.sqlite.org/c3ref), you might except there to be a ["finalize"](https://www.sqlite.org/c3ref/finalize.html) method, but `better-sqlite3-multiple-ciphers` automatically handles this during garbage collection (or when the associated database is closed).
 
 ### .run([*...bindParameters*]) -> *object*
 
@@ -635,11 +635,11 @@ console.log(cat.name); // => "Joey"
 
 # class *SqliteError*
 
-Whenever an error occurs within SQLite3, a `SqliteError` object will be thrown. `SqliteError` is a subclass of `Error`. Every `SqliteError` object has a `code` property, which is a string matching one of the "extended result codes" defined [here](https://sqlite.org/rescode.html) (for example, `"SQLITE_CONSTRAINT_UNIQUE"`).
+Whenever an error occurs within SQLite, a `SqliteError` object will be thrown. `SqliteError` is a subclass of `Error`. Every `SqliteError` object has a `code` property, which is a string matching one of the "extended result codes" defined [here](https://sqlite.org/rescode.html) (for example, `"SQLITE_CONSTRAINT_UNIQUE"`).
 
-If you receive a `SqliteError`, it probably means you're using SQLite3 incorrectly. The error didn't originate in `better-sqlite3-multiple-ciphers`, so it's probably not an issue with `better-sqlite3-multiple-ciphers`. It's recommended that you learn about the meaning of the error [here](https://sqlite.org/rescode.html), and perhaps learn more about how to use SQLite3 by reading [their docs](https://sqlite.org/docs.html).
+If you receive a `SqliteError`, it probably means you're using SQLite incorrectly. The error didn't originate in `better-sqlite3-multiple-ciphers`, so it's probably not an issue with `better-sqlite3-multiple-ciphers`. It's recommended that you learn about the meaning of the error [here](https://sqlite.org/rescode.html), and perhaps learn more about how to use SQLite by reading [their docs](https://sqlite.org/docs.html).
 
-> In the unlikely scenario that SQLite3 throws an error that is not recognized by `better-sqlite3-multiple-ciphers` (this would be considered a bug in `better-sqlite3-multiple-ciphers`), the `code` property will be `"UNKNOWN_SQLITE_ERROR_NNNN"`, where `NNNN` is the numeric error code. If this happens to you, please report it as an [issue](https://github.com/m4heshd/better-sqlite3-multiple-ciphers/issues).
+> In the unlikely scenario that SQLite throws an error that is not recognized by `better-sqlite3-multiple-ciphers` (this would be considered a bug in `better-sqlite3-multiple-ciphers`), the `code` property will be `"UNKNOWN_SQLITE_ERROR_NNNN"`, where `NNNN` is the numeric error code. If this happens to you, please report it as an [issue](https://github.com/m4heshd/better-sqlite3-multiple-ciphers/issues).
 
 # Binding Parameters
 
@@ -656,7 +656,7 @@ stmt.run(['John', 'Smith', 45]);
 stmt.run(['John'], ['Smith', 45]);
 ```
 
-You can also use named parameters. SQLite3 provides [3 different syntaxes for named parameters](https://www.sqlite.org/lang_expr.html) (`@foo`, `:foo`, and `$foo`), all of which are supported by `better-sqlite3-multiple-ciphers`.
+You can also use named parameters. SQLite provides [3 different syntaxes for named parameters](https://www.sqlite.org/lang_expr.html) (`@foo`, `:foo`, and `$foo`), all of which are supported by `better-sqlite3-multiple-ciphers`.
 
 ```js
 // The following are equivalent.
@@ -679,12 +679,12 @@ const stmt = db.prepare('INSERT INTO people VALUES (@name, @name, ?)');
 stmt.run(45, { name: 'Henry' });
 ```
 
-Here is how `better-sqlite3` converts values between SQLite3 and JavaScript:
+Here is how `better-sqlite3-multiple-ciphers` converts values between SQLite and JavaScript:
 
-|SQLite3|JavaScript|
+|SQLite|JavaScript|
 |---|---|
 |`NULL`|`null`|
 |`REAL`|`number`|
-|`INTEGER`|`number` [or `BigInt`](https://github.com/JoshuaWise/better-sqlite3/blob/master/docs/integer.md#the-bigint-primitive-type)|
+|`INTEGER`|`number` [or `BigInt`](https://github.com/m4heshd/better-sqlite3-multiple-ciphers/blob/master/docs/integer.md#the-bigint-primitive-type)|
 |`TEXT`|`string`|
 |`BLOB`|[`Buffer`](https://nodejs.org/api/buffer.html#buffer_class_buffer)|

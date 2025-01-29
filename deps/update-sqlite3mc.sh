@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 
 # ===
-# This script defines and generates the bundled SQLite3 unit (sqlite3.c).
+# This script defines and generates the bundled SQLite unit (sqlite3.c).
 #
 # The following steps are taken:
 # 1. populate the shell environment with the defined compile-time options.
-# 2. download and extract the SQLite3 source code into a temporary directory.
+# 2. download and extract the SQLite source code into a temporary directory.
 # 3. run "sh configure" and "make sqlite3.c" within the source directory.
-# 4. clone the SQLite3MultipleCiphers repo, replace SQLite3 amalgamation and patch it.
+# 4. clone the SQLite3MultipleCiphers repo, replace SQLite amalgamation and patch it.
 # 5. build the SQLite3MultipleCiphers amalgamation
 # 6. copy the generated amalgamation into the output directory (./sqlite3).
 # 7. export the defined compile-time options to a gyp file (./defines.gypi).
@@ -76,17 +76,17 @@ mkdir -p "$TEMP"
 mkdir -p "$OUTPUT"
 export CFLAGS=`echo $(echo "$DEFINES" | sed -e "/^\s*$/d" -e "s/^/-D/")`
 
-echo -e "\nDownloading SQLite3 source..."
+echo -e "\nDownloading SQLite source..."
 curl -#f "https://www.sqlite.org/$YEAR/sqlite-src-$VERSION.zip" > "$TEMP/source.zip" || exit 1
 
-echo -e "\nExtracting SQLite3 source..."
+echo -e "\nExtracting SQLite source..."
 unzip "$TEMP/source.zip" -d "$TEMP" > /dev/null || exit 1
 cd "$TEMP/sqlite-src-$VERSION" || exit 1
 
-echo -e "\nConfiguring SQLite3 amalgamation..."
+echo -e "\nConfiguring SQLite amalgamation..."
 sh configure > /dev/null || exit 1
 
-echo -e "\nBuilding SQLite3 amalgamation..."
+echo -e "\nBuilding SQLite amalgamation..."
 make OPTIONS="$CFLAGS" sqlite3.c > /dev/null || exit 1
 
 echo -e "\nCloning SQLite3MultipleCiphers repo..."
@@ -95,11 +95,11 @@ git clone --quiet https://github.com/utelle/SQLite3MultipleCiphers.git > /dev/nu
 cd "$TEMP/SQLite3MultipleCiphers" || exit 1
 git checkout --quiet "tags/$SQLITE3MC_VERSION" > /dev/null || exit 1
 
-echo -e "\nReplacing SQLite3 amalgamation in SQLite3MultipleCiphers..."
+echo -e "\nReplacing SQLite amalgamation in SQLite3MultipleCiphers..."
 cd "$TEMP/sqlite-src-$VERSION" || exit 1
 (yes | cp -rf sqlite3.c sqlite3.h sqlite3ext.h "$TEMP/SQLite3MultipleCiphers/src") || exit 1
 
-echo -e "\nPatching SQLite3 amalgamation in SQLite3MultipleCiphers..."
+echo -e "\nPatching SQLite amalgamation in SQLite3MultipleCiphers..."
 cd "$TEMP/SQLite3MultipleCiphers" || exit 1
 chmod +x ./scripts/patchsqlite3.sh || exit 1
 chmod +x ./scripts/rekeyvacuum.sh || exit 1
@@ -137,4 +137,4 @@ echo -e "\nCleaning up..."
 cd - > /dev/null || exit 1
 rm -rf "$TEMP"
 
-echo -e "\nSQLite3MC update process completed!"
+echo -e "\nSQLite3MultipleCiphers update process completed!"

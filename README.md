@@ -4,7 +4,7 @@
 [![Downloads](https://img.shields.io/npm/dt/better-sqlite3-multiple-ciphers?logo=DocuSign&logoColor=FFF&color=2757c4&style=for-the-badge)](https://www.npmjs.com/package/better-sqlite3-multiple-ciphers)
 [![Build status](https://img.shields.io/github/actions/workflow/status/m4heshd/better-sqlite3-multiple-ciphers/test.yml?branch=master&label=Build%2FTest&logo=github&style=for-the-badge)](https://github.com/m4heshd/better-sqlite3-multiple-ciphers/actions/workflows/test.yml)
 
-The fastest and simplest library for SQLite3 in Node.js. This particular fork supports multiple-cipher encryption using [SQLite3MultipleCiphers](https://github.com/utelle/SQLite3MultipleCiphers). Check [usage](#usage) to learn more.
+The fastest and simplest library for SQLite in Node.js. This particular fork supports multiple-cipher encryption using [SQLite3MultipleCiphers](https://github.com/utelle/SQLite3MultipleCiphers). Check [usage](#usage) to learn more.
 
 - Full transaction support
 - High performance, efficiency, and safety
@@ -158,7 +158,7 @@ uses [SQLite3MultipleCiphers](https://github.com/utelle/SQLite3MultipleCiphers) 
 
 #### When is this library not appropriate?
 
-In most cases, if you're attempting something that cannot be reasonably accomplished with `better-sqlite3`, it probably cannot be reasonably accomplished with SQLite3 in general. For example, if you're executing queries that take one second to complete, and you expect to have many concurrent users executing those queries, no amount of asynchronicity will save you from SQLite3's serialized nature. Fortunately, SQLite3 is very *very* fast. With proper indexing, we've been able to achieve upward of 2000 queries per second with 5-way-joins in a 60 GB database, where each query was handling 5–50 kilobytes of real data.
+In most cases, if you're attempting something that cannot be reasonably accomplished with `better-sqlite3`, it probably cannot be reasonably accomplished with SQLite in general. For example, if you're executing queries that take one second to complete, and you expect to have many concurrent users executing those queries, no amount of asynchronicity will save you from SQLite's serialized nature. Fortunately, SQLite is very *very* fast. With proper indexing, we've been able to achieve upward of 2000 queries per second with 5-way-joins in a 60 GB database, where each query was handling 5–50 kilobytes of real data.
 
 If you have a performance problem, the most likely causes are inefficient queries, improper indexing, or a lack of [WAL mode](./docs/performance.md)—not `better-sqlite3` itself. However, there are some cases where `better-sqlite3` could be inappropriate:
 
@@ -170,10 +170,10 @@ For these situations, you should probably use a full-fledged RDBMS such as [Post
 
 ## Upgrading
 
-Upgrading your `better-sqlite3-multiple-ciphers` dependency can potentially introduce breaking changes, either in the `better-sqlite3-multiple-ciphers` API, or between your existing database(s) and the underlying version of SQLite.  Before upgrading, review:
+Upgrading your `better-sqlite3-multiple-ciphers` dependency can potentially introduce breaking changes, either in the `better-sqlite3-multiple-ciphers` API (if you upgrade to a new [major version](https://semver.org/)), or between your existing database(s) and the underlying version of SQLite. Before upgrading, review:
 
-* `better-sqlite3-multiple-ciphers` release notes: https://github.com/WiseLibs/better-sqlite3-multiple-ciphers/releases
-* SQLite changelog: https://www.sqlite.org/changes.html
+* [`better-sqlite3-multiple-ciphers` release notes](https://github.com/m4heshd/better-sqlite3-multiple-ciphers/releases)
+* [SQLite release history](https://www.sqlite.org/changes.html)
 
 # Documentation
 
@@ -182,7 +182,7 @@ Upgrading your `better-sqlite3-multiple-ciphers` dependency can potentially intr
 - [64-bit integer support](./docs/integer.md)
 - [Worker thread support](./docs/threads.md)
 - [Unsafe mode (advanced)](./docs/unsafe.md)
-- [SQLite3 compilation](./docs/compilation.md)
+- [SQLite compilation (advanced)](./docs/compilation.md)
 
 # License
 
