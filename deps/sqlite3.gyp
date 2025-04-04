@@ -54,7 +54,7 @@
       },
       'cflags': ['-std=c99', '-w', '-maes', '-msse4.2'],
       'xcode_settings': {
-        'OTHER_CFLAGS': ['-std=c99', '-maes', '-msse4.2'],
+        'OTHER_CFLAGS': ['-std=c99', '-msse4.2'],
         'WARNING_CFLAGS': ['-w'],
       },
       'conditions': [
