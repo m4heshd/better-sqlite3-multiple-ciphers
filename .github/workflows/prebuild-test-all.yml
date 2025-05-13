@@ -1,0 +1,90 @@
+name: prebuild-test-all
+
+on:
+  workflow_dispatch:
+
+env:
+  NODE_BUILD_CMD: npx --no-install prebuild -r node -t 18.0.0 -t 20.0.0 -t 22.0.0 --include-regex 'better_sqlite3.node$'
+  ELECTRON_BUILD_CMD: npx --no-install prebuild -r electron -t 26.0.0 -t 27.0.0 -t 28.0.0 -t 29.0.0 -t 30.0.0 -t 31.0.0 -t 32.0.0 -t 33.0.0 -t 34.0.0 -t 35.0.0 --include-regex 'better_sqlite3.node$'
+
+jobs:
+  prebuild:
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - macos-13
+          - macos-14
+          - windows-2019
+    name: Prebuild on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      - if: ${{ startsWith(matrix.os, 'windows') }}
+        run: pip.exe install setuptools
+      - if: ${{ startsWith(matrix.os, 'macos') }}
+        run: brew install python-setuptools
+      - run: npm install --ignore-scripts
+      - run: ${{ env.NODE_BUILD_CMD }}
+      - run: ${{ env.ELECTRON_BUILD_CMD }}
+      - if: matrix.os == 'windows-2019'
+        run: |
+          ${{ env.NODE_BUILD_CMD }} --arch ia32
+          npx --no-install prebuild -r node -t 20.0.0 -t 22.0.0 --include-regex 'better_sqlite3.node$' --arch arm64
+          ${{ env.ELECTRON_BUILD_CMD }} --arch ia32
+          ${{ env.ELECTRON_BUILD_CMD }} --arch arm64
+
+  prebuild-linux-x64:
+    name: Prebuild on Linux x64
+    runs-on: ubuntu-latest
+    container: node:18-bullseye
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm install --ignore-scripts
+      - run: ${{ env.NODE_BUILD_CMD }}
+      - run: ${{ env.ELECTRON_BUILD_CMD }}
+
+  prebuild-alpine-linux:
+    name: Prebuild on Alpine-Linux (x64)
+    runs-on: ubuntu-latest
+    container: node:18-alpine
+    steps:
+      - uses: actions/checkout@v4
+      - run: apk add build-base git python3 py3-setuptools --update-cache
+      - run: npm install --ignore-scripts
+      - run: ${{ env.NODE_BUILD_CMD }}
+
+  prebuild-alpine-linux-arm64:
+    name: Prebuild on Alpine-Linux (arm64)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-qemu-action@v3
+      - run: |
+          docker run --rm -v $(pwd):/tmp/project --entrypoint /bin/sh --platform linux/arm64 node:18-alpine -c "\
+          apk add build-base git python3 py3-setuptools --update-cache && \
+          cd /tmp/project && \
+          npm install --ignore-scripts && \
+          ${{ env.NODE_BUILD_CMD }}"
+
+  prebuild-linux-arm:
+    strategy:
+      fail-fast: false
+      matrix:
+        arch:
+          - arm/v7
+          - arm64
+    name: Prebuild on Linux (${{ matrix.arch }})
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-qemu-action@v3
+      - run: |
+          docker run --rm -v $(pwd):/tmp/project --entrypoint /bin/sh --platform linux/${{ matrix.arch }} node:18-bullseye -c "\
+          cd /tmp/project && \
+          npm install --ignore-scripts && \
+          ${{ env.NODE_BUILD_CMD }} && \
+          if [ '${{ matrix.arch }}' = 'arm64' ]; then ${{ env.ELECTRON_BUILD_CMD }} --arch arm64; fi"
