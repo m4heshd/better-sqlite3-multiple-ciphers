@@ -52,9 +52,9 @@
       'direct_dependent_settings': {
         'include_dirs': ['<(SHARED_INTERMEDIATE_DIR)/sqlite3/'],
       },
-      'cflags': ['-std=c99', '-w', '-maes', '-msse4.2'],
+      'cflags': ['-std=c99', '-w'],
       'xcode_settings': {
-        'OTHER_CFLAGS': ['-std=c99', '-msse4.2'],
+        'OTHER_CFLAGS': ['-std=c99'],
         'WARNING_CFLAGS': ['-w'],
       },
       'conditions': [
@@ -65,15 +65,6 @@
             # This is currently required by better-sqlite3.
             'SQLITE_ENABLE_COLUMN_METADATA',
           ],
-        }],
-        ['OS=="win"', {
-          'cflags!': ['-maes', '-msse4.2'],
-        }],
-        ['target_arch=="arm64"', {
-          'cflags!': ['-maes', '-msse4.2'],
-        }],
-        ['target_arch=="arm"', {
-          'cflags!': ['-maes', '-msse4.2'],
         }],
       ],
       'configurations': {
