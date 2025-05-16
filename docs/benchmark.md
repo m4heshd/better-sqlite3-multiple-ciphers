@@ -3,7 +3,7 @@
 To run the benchmark yourself:
 
 ```bash
-git clone https://github.com/JoshuaWise/better-sqlite3-multiple-ciphers.git
+git clone https://github.com/m4heshd/better-sqlite3-multiple-ciphers.git
 cd better-sqlite3-multiple-ciphers
 npm install # if you're doing this as the root user, --unsafe-perm is required
 node benchmark
