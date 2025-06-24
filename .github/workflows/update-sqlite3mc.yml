@@ -34,7 +34,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
       - name: Create new update branch
         run: git checkout -b sqlite3mc-update-${{ env.ENV_VERSION }}
       - name: Update update-sqlite3mc script
