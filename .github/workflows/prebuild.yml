@@ -17,7 +17,7 @@ jobs:
         os:
           - macos-13
           - macos-14
-          - windows-2019
+          - windows-2022
     name: Prebuild on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     steps:
@@ -32,7 +32,7 @@ jobs:
       - run: npm install --ignore-scripts
       - run: ${{ env.NODE_BUILD_CMD }}
       - run: ${{ env.ELECTRON_BUILD_CMD }}
-      - if: matrix.os == 'windows-2019'
+      - if: matrix.os == 'windows-2022'
         run: |
           ${{ env.NODE_BUILD_CMD }} --arch ia32
           ${{ env.NODE_BUILD_CMD }} --arch arm64
