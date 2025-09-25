@@ -126,6 +126,8 @@ void Database::FreeSerialization(char* data, void* _) {
 INIT(Database::Init) {
 	v8::Local<v8::FunctionTemplate> t = NewConstructorTemplate(isolate, data, JS_new, "Database");
 	SetPrototypeMethod(isolate, data, t, "prepare", JS_prepare);
+    SetPrototypeMethod(isolate, data, t, "key", JS_key);
+    SetPrototypeMethod(isolate, data, t, "rekey", JS_rekey);
 	SetPrototypeMethod(isolate, data, t, "exec", JS_exec);
 	SetPrototypeMethod(isolate, data, t, "backup", JS_backup);
 	SetPrototypeMethod(isolate, data, t, "serialize", JS_serialize);
@@ -207,6 +209,44 @@ NODE_METHOD(Database::JS_prepare) {
 	v8::MaybeLocal<v8::Object> maybeStatement = c->NewInstance(OnlyContext, 0, NULL);
 	addon->privileged_info = NULL;
 	if (!maybeStatement.IsEmpty()) info.GetReturnValue().Set(maybeStatement.ToLocalChecked());
+}
+
+NODE_METHOD(Database::JS_key) {
+        Database* db = Unwrap<Database>(info.This());
+        REQUIRE_ARGUMENT_OBJECT(first, v8::Local<v8::Object> key);
+        REQUIRE_ARGUMENT_INT32(second, unsigned int len);
+        (void)key;
+        (void)len;
+        char* buffer = (char*) node::Buffer::Data(key);
+        REQUIRE_DATABASE_OPEN(db);
+        REQUIRE_DATABASE_NOT_BUSY(db);
+        sqlite3* const db_handle = db->db_handle;
+        int status = sqlite3_key(db_handle, buffer, len);
+        if (status != SQLITE_OK) {
+            db->ThrowSqliteError(db->addon, sqlite3_errstr(status), status);
+        }
+        else {
+            info.GetReturnValue().Set(status);
+        }
+}
+
+NODE_METHOD(Database::JS_rekey) {
+        Database* db = Unwrap<Database>(info.This());
+        REQUIRE_ARGUMENT_OBJECT(first, v8::Local<v8::Object> key);
+        REQUIRE_ARGUMENT_INT32(second, unsigned int len);
+        (void)key;
+        (void)len;
+        char* buffer = (char*) node::Buffer::Data(key);
+        REQUIRE_DATABASE_OPEN(db);
+        REQUIRE_DATABASE_NOT_BUSY(db);
+        sqlite3* const db_handle = db->db_handle;
+        int status = sqlite3_rekey(db_handle, buffer, len);
+        if (status != SQLITE_OK) {
+            db->ThrowSqliteError(db->addon, sqlite3_errstr(status), status);
+        }
+        else {
+            info.GetReturnValue().Set(status);
+        }
 }
 
 NODE_METHOD(Database::JS_exec) {
