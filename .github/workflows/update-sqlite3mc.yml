@@ -45,7 +45,7 @@ jobs:
       - name: Download, build and package SQLite and SQLite3MC
         run: npm run update-sqlite3mc
       - name: Push update branch
-        uses: stefanzweifel/git-auto-commit-action@v4
+        uses: stefanzweifel/git-auto-commit-action@v6
         with:
           commit_message: 'Update `SQLite3MultipleCiphers` to `${{ env.ENV_VERSION }}` (SQLite `${{ env.ENV_SQLITE_VERSION }}`)'
           branch: sqlite3mc-update-${{ env.ENV_VERSION }}
