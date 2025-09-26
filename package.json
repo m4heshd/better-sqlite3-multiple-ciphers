@@ -13,7 +13,7 @@
   "files": [
     "index.d.ts",
     "binding.gyp",
-    "src/*.[ch]pp",
+    "src/**/*.[ch]pp",
     "lib/**",
     "deps/**"
   ],
