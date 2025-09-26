@@ -26,7 +26,7 @@
   },
   "overrides": {
     "prebuild": {
-      "node-abi": "4.9.0"
+      "node-abi": "4.13.1"
     }
   },
   "devDependencies": {
