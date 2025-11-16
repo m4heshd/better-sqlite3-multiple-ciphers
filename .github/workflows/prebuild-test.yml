@@ -25,8 +25,8 @@ on:
         description: 'Test on windows-2022'
         type: boolean
         default: true
-      macos-13:
-        description: 'Test on macos-13'
+      macos-15-intel:
+        description: 'Test on macos-15'
         type: boolean
         default: true
       alpine:
@@ -41,7 +41,7 @@ env:
 
 jobs:
   input-setup:
-    if: inputs['ubuntu-22.04'] == true || inputs['windows-2022'] == true || inputs['macos-13'] == true
+    if: inputs['ubuntu-22.04'] == true || inputs['windows-2022'] == true || inputs['macos-15-intel'] == true
     name: Preparing tests
     runs-on: ubuntu-latest
     outputs:
@@ -53,7 +53,7 @@ jobs:
           INPUTS='${{ toJSON(inputs) }}'
           PLATFORMS='{"os":[]}'
           
-          for os in 'ubuntu-22.04' 'windows-2022' 'macos-13'
+          for os in 'ubuntu-22.04' 'windows-2022' 'macos-15-intel'
           do
             if [ "$(jq ".[\"$os\"]" <<< "$INPUTS")" = "true" ]; then PLATFORMS=$(jq -c ".os += [\"$os\"]" <<< "$PLATFORMS"); fi
           done
@@ -89,9 +89,9 @@ jobs:
         run: ${{ env.TEST_COMMAND }} --arch arm64
 
   prebuild-test-mac-arm64:
-    if: inputs.macos-13 == true && inputs.arm == true
+    if: inputs.macos-15-intel == true && inputs.arm == true
     name: Testing prebuild on M1 macOS (arm64)
-    runs-on: macos-14
+    runs-on: macos-15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

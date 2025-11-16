@@ -13,8 +13,8 @@ jobs:
       fail-fast: false
       matrix:
         os:
-          - macos-13
-          - macos-14
+          - macos-15
+          - macos-15-intel
           - windows-2022
     name: Prebuild on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}

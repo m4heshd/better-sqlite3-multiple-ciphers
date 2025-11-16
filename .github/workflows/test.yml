@@ -17,8 +17,8 @@ jobs:
       matrix:
         os:
           - ubuntu-22.04
-          - macos-13
-          - macos-14
+          - macos-15
+          - macos-15-intel
           - windows-2022
         node:
           - 20
