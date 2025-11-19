@@ -21,8 +21,8 @@
 # ===
 
 YEAR="2025"
-VERSION="3500400"
-SQLITE3MC_VERSION="v2.2.4"
+VERSION="3510000"
+SQLITE3MC_VERSION="v2.2.5"
 
 # Defines below are sorted alphabetically
 DEFINES="
