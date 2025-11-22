@@ -16,7 +16,7 @@ on:
       targets:
         description: 'Runtime versions (targets)'
         required: true
-        default: -t 18.0.0
+        default: -t 24.0.0
       ubuntu-22.04:
         description: 'Test on ubuntu-22.04'
         type: boolean
@@ -90,7 +90,7 @@ jobs:
 
   prebuild-test-mac-arm64:
     if: inputs.macos-15-intel == true && inputs.arm == true
-    name: Testing prebuild on M1 macOS (arm64)
+    name: Testing prebuild on macOS (arm64)
     runs-on: macos-15
     steps:
       - uses: actions/checkout@v4
