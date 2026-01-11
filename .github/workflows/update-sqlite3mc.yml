@@ -10,7 +10,7 @@ on:
         required: true
       sqlite_release_year:
         description: 'SQLite release year'
-        default: '2025'
+        default: '2026'
         required: true
       sqlite_version:
         description: 'SQLite version'
