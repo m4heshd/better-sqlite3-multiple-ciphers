@@ -20,9 +20,9 @@
 # 4. node-gyp links the two resulting binaries to generate better_sqlite3.node.
 # ===
 
-YEAR="2025"
-VERSION="3510100"
-SQLITE3MC_VERSION="v2.2.6"
+YEAR="2026"
+VERSION="3510200"
+SQLITE3MC_VERSION="v2.2.7"
 
 # Defines below are sorted alphabetically
 DEFINES="
