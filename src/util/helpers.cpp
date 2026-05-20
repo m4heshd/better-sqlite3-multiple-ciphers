@@ -19,6 +19,24 @@ inline void SetFrozen(v8::Isolate* isolate, v8::Local<v8::Context> ctx, v8::Loca
 	obj->DefineOwnProperty(ctx, key.Get(isolate), value, static_cast<v8::PropertyAttribute>(v8::DontDelete | v8::ReadOnly)).FromJust();
 }
 
+#if defined(V8_MAJOR_VERSION) && (V8_MAJOR_VERSION > 14 || (V8_MAJOR_VERSION == 14 && V8_MINOR_VERSION >= 8))
+inline v8::Local<v8::External> NewExternal(v8::Isolate* isolate, void* value) {
+	return v8::External::New(isolate, value, v8::kExternalPointerTypeTagDefault);
+}
+
+inline void* ExternalValue(v8::Local<v8::External> external) {
+	return external->Value(v8::kExternalPointerTypeTagDefault);
+}
+#else
+inline v8::Local<v8::External> NewExternal(v8::Isolate* isolate, void* value) {
+	return v8::External::New(isolate, value);
+}
+
+inline void* ExternalValue(v8::Local<v8::External> external) {
+	return external->Value();
+}
+#endif
+
 void ThrowError(const char* message) { EasyIsolate; isolate->ThrowException(v8::Exception::Error(StringFromUtf8(isolate, message, -1))); }
 void ThrowTypeError(const char* message) { EasyIsolate; isolate->ThrowException(v8::Exception::TypeError(StringFromUtf8(isolate, message, -1))); }
 void ThrowRangeError(const char* message) { EasyIsolate; isolate->ThrowException(v8::Exception::RangeError(StringFromUtf8(isolate, message, -1))); }
@@ -89,7 +107,7 @@ void SetPrototypeGetter(
 	recv->InstanceTemplate()->SetNativeDataProperty(
 		InternalizedFromLatin1(isolate, name),
 		func,
-		0,
+		static_cast<v8::AccessorNameSetterCallback>(nullptr),
 		data
 	);
 }

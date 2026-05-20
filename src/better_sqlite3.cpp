@@ -8,6 +8,10 @@
 #include <algorithm>
 #include <mutex>
 #include <sqlite3.h>
+#if defined(_MSC_VER) && !defined(__clang__) && !defined(__builtin_frame_address)
+#include <intrin.h>
+#define __builtin_frame_address(level) _AddressOfReturnAddress()
+#endif
 #include <node.h>
 #include <node_object_wrap.h>
 #include <node_buffer.h>
@@ -57,7 +61,7 @@ NODE_MODULE_INIT(/* exports, context */) {
 
 	// Initialize addon instance.
 	Addon* addon = new Addon(isolate);
-	v8::Local<v8::External> data = v8::External::New(isolate, addon);
+	v8::Local<v8::External> data = NewExternal(isolate, addon);
 	node::AddEnvironmentCleanupHook(isolate, Addon::Cleanup, addon);
 
 	// Create and export native-backed classes and functions.
