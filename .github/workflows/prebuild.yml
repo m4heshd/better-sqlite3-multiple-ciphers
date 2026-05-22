@@ -6,7 +6,8 @@ on:
       - published
 
 env:
-  NODE_BUILD_CMD_LEGACY: npx --no-install prebuild -r node -t 20.0.0 -t 22.0.0 -t 24.0.0 --include-regex 'better_sqlite3.node$' -u ${{ secrets.GITHUB_TOKEN }}
+  NODE_BUILD_CMD_LEGACY: npx --no-install prebuild -r node -t 22.0.0 -t 24.0.0 --include-regex 'better_sqlite3.node$' -u ${{ secrets.GITHUB_TOKEN }}
+  NODE_BUILD_CMD_MODERN: npx --no-install prebuild -r node -t 26.0.0 --include-regex 'better_sqlite3.node$' -u ${{ secrets.GITHUB_TOKEN }}
   ELECTRON_BUILD_CMD_LEGACY: npx --no-install prebuild -r electron -t 29.0.0 -t 30.0.0 -t 31.0.0 -t 32.0.0 -t 33.0.0 -t 34.0.0 -t 35.0.0 -t 36.0.0 -t 37.0.0 -t 38.0.0 --include-regex 'better_sqlite3.node$' -u ${{ secrets.GITHUB_TOKEN }}
   ELECTRON_BUILD_CMD_MODERN: npx --no-install prebuild -r electron -t 39.0.0 -t 40.0.0 -t 41.0.0 --include-regex 'better_sqlite3.node$' -u ${{ secrets.GITHUB_TOKEN }}
 
@@ -32,12 +33,15 @@ jobs:
         run: brew install python-setuptools
       - run: npm install --ignore-scripts
       - run: ${{ env.NODE_BUILD_CMD_LEGACY }}
+      - run: ${{ env.NODE_BUILD_CMD_MODERN }}
       - run: ${{ env.ELECTRON_BUILD_CMD_LEGACY }}
       - run: ${{ env.ELECTRON_BUILD_CMD_MODERN }}
       - if: matrix.os == 'windows-2022'
         run: |
           ${{ env.NODE_BUILD_CMD_LEGACY }} --arch ia32
           ${{ env.NODE_BUILD_CMD_LEGACY }} --arch arm64
+          ${{ env.NODE_BUILD_CMD_MODERN }} --arch ia32
+          ${{ env.NODE_BUILD_CMD_MODERN }} --arch arm64
           ${{ env.ELECTRON_BUILD_CMD_LEGACY }} --arch ia32
           ${{ env.ELECTRON_BUILD_CMD_LEGACY }} --arch arm64
           ${{ env.ELECTRON_BUILD_CMD_MODERN }} --arch ia32
@@ -74,6 +78,7 @@ jobs:
           ${{ env.ELECTRON_BUILD_CMD_LEGACY }}
       - if: matrix.generation == 'modern'
         run: |
+          ${{ env.NODE_BUILD_CMD_MODERN }}
           ${{ env.ELECTRON_BUILD_CMD_MODERN }}
 
   prebuild-linux-armv7:
@@ -99,6 +104,12 @@ jobs:
           cd /tmp/project && \
           npm install --ignore-scripts && \
           ${{ env.NODE_BUILD_CMD_LEGACY }}"
+      - if: matrix.generation == 'modern'
+        run: |
+          docker run --rm -v $(pwd):/tmp/project --entrypoint /bin/sh --platform linux/arm/v7 ${{ matrix.image }} -c "\
+          cd /tmp/project && \
+          npm install --ignore-scripts && \
+          ${{ env.NODE_BUILD_CMD_MODERN }}"
 
   prebuild-alpine-linux:
     strategy:
@@ -121,4 +132,5 @@ jobs:
           apk add build-base git python3 py3-setuptools --update-cache && \
           cd /tmp/project && \
           npm install --ignore-scripts && \
-          ${{ env.NODE_BUILD_CMD_LEGACY }}"
+          ${{ env.NODE_BUILD_CMD_LEGACY }} && \
+          ${{ env.NODE_BUILD_CMD_MODERN }}"
