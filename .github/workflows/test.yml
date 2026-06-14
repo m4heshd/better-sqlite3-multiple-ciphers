@@ -27,8 +27,8 @@ jobs:
     name: Testing Node ${{ matrix.node }} on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node }}
       - if: ${{ startsWith(matrix.os, 'windows') }}
@@ -62,7 +62,7 @@ jobs:
     runs-on: ubuntu-latest
     container: node:22-alpine
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - run: apk add build-base git python3 py3-setuptools --update-cache
       - run: npm install --ignore-scripts
       - run: npm run build-debug
@@ -72,8 +72,8 @@ jobs:
     name: Testing Node 22 on Alpine-Linux (arm64)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: docker/setup-qemu-action@v3
+      - uses: actions/checkout@v6
+      - uses: docker/setup-qemu-action@v4
       - run: |
           docker run --rm -v $(pwd):/tmp/project --entrypoint /bin/sh --platform linux/arm64 node:22-alpine -c "\
           apk add build-base git python3 py3-setuptools --update-cache && \
@@ -92,8 +92,8 @@ jobs:
     name: Testing Node 22 on Linux (${{ matrix.arch }})
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: docker/setup-qemu-action@v3
+      - uses: actions/checkout@v6
+      - uses: docker/setup-qemu-action@v4
       - run: |
           docker run --rm -v $(pwd):/tmp/project --entrypoint /bin/sh --platform linux/${{ matrix.arch }} node:22 -c "\
           cd /tmp/project && \

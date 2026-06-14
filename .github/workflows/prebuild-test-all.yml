@@ -21,8 +21,8 @@ jobs:
     name: Prebuild on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
         with:
           node-version: 20
       - if: ${{ startsWith(matrix.os, 'windows') }}
@@ -68,7 +68,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     container: ${{ matrix.image }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - run: npm install --ignore-scripts
       - if: matrix.generation == 'legacy'
         run: |
@@ -94,8 +94,8 @@ jobs:
     name: Prebuild on Linux armv7 (${{ matrix.generation }})
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: docker/setup-qemu-action@v3
+      - uses: actions/checkout@v6
+      - uses: docker/setup-qemu-action@v4
       - if: matrix.generation == 'legacy'
         run: |
           docker run --rm -v $(pwd):/tmp/project --entrypoint /bin/sh --platform linux/arm/v7 ${{ matrix.image }} -c "\
@@ -124,7 +124,7 @@ jobs:
     name: Prebuild on Alpine-Linux (${{ matrix.arch }})
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - run: |
           docker run --rm -v $(pwd):/tmp/project --entrypoint /bin/sh node:20-alpine -c "\
           apk add build-base git python3 py3-setuptools --update-cache && \

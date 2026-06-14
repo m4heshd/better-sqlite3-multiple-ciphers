@@ -29,10 +29,10 @@ jobs:
       ENV_SQLITE_VERSION: ${{ github.event.inputs.sqlite_version }}
       ENV_SQLITE_VERSION_ENC: ${{ github.event.inputs.sqlite_version_enc }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: 20
       - name: Create new update branch
@@ -45,7 +45,7 @@ jobs:
       - name: Download, build and package SQLite and SQLite3MC
         run: npm run update-sqlite3mc
       - name: Push update branch
-        uses: stefanzweifel/git-auto-commit-action@v6
+        uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: 'Update `SQLite3MultipleCiphers` to `${{ env.ENV_VERSION }}` (SQLite `${{ env.ENV_SQLITE_VERSION }}`)'
           branch: sqlite3mc-update-${{ env.ENV_VERSION }}
