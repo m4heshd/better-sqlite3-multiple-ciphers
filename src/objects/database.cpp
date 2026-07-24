@@ -124,6 +124,8 @@ void Database::FreeSerialization(Napi::Env env, char* data) {
 INIT(Database::Init) {
 	return DefineClass(env, "Database", {
 		PrototypeMethod<Database, &Database::JS_prepare>("prepare", addon),
+		PrototypeMethod<Database, &Database::JS_key>("key", addon),
+		PrototypeMethod<Database, &Database::JS_rekey>("rekey", addon),
 		PrototypeMethod<Database, &Database::JS_exec>("exec", addon),
 		PrototypeMethod<Database, &Database::JS_backup>("backup", addon),
 		PrototypeMethod<Database, &Database::JS_serialize>("serialize", addon),
@@ -212,6 +214,38 @@ NODE_METHOD(Database::JS_prepare) {
 	addon->privileged_info = NULL;
 	if (env.IsExceptionPending()) return env.Undefined();
 	return statement;
+}
+
+NODE_METHOD(Database::JS_key) {
+	Database* db = ::Unwrap<Database>(info.This());
+	REQUIRE_ARGUMENT_BUFFER(first, Napi::Buffer<char> key);
+	REQUIRE_DATABASE_OPEN(db);
+	REQUIRE_DATABASE_NOT_BUSY(db);
+
+	int status = sqlite3_key(db->db_handle, key.Data(), static_cast<int>(key.Length()));
+
+	if (status != SQLITE_OK) {
+		ThrowSqliteError(info.Env(), db->addon, sqlite3_errstr(status), status);
+		return info.Env().Undefined();
+	}
+
+	return Napi::Number::New(info.Env(), status);
+}
+
+NODE_METHOD(Database::JS_rekey) {
+	Database* db = ::Unwrap<Database>(info.This());
+	REQUIRE_ARGUMENT_BUFFER(first, Napi::Buffer<char> key);
+	REQUIRE_DATABASE_OPEN(db);
+	REQUIRE_DATABASE_NOT_BUSY(db);
+
+	int status = sqlite3_rekey(db->db_handle, key.Data(), static_cast<int>(key.Length()));
+
+	if (status != SQLITE_OK) {
+		ThrowSqliteError(info.Env(), db->addon, sqlite3_errstr(status), status);
+		return info.Env().Undefined();
+	}
+
+	return Napi::Number::New(info.Env(), status);
 }
 
 NODE_METHOD(Database::JS_exec) {

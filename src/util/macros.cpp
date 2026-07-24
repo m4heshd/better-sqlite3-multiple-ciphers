@@ -30,6 +30,10 @@
 	_REQUIRE_ARGUMENT(at, var, Object, an object)
 #define REQUIRE_ARGUMENT_FUNCTION(at, var)                                     \
 	_REQUIRE_ARGUMENT(at, var, Function, a function)
+#define REQUIRE_ARGUMENT_BUFFER(at, var)                                       \
+	if (info.Length() <= (at()) || !info[at()].IsBuffer())                     \
+		return ThrowTypeError(info.Env(), "Expected "#at" argument to be a Buffer"); \
+	var = info[at()].As<Napi::Buffer<char>>()
 
 #define REQUIRE_DATABASE_OPEN(db)                                              \
 	if (!db->open)                                                             \

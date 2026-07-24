@@ -66,6 +66,8 @@ private:
 
 	NODE_METHOD(JS_new);
 	static NODE_METHOD(JS_prepare);
+    static NODE_METHOD(JS_key);
+    static NODE_METHOD(JS_rekey);
 	static NODE_METHOD(JS_exec);
 	static NODE_METHOD(JS_backup);
 	static NODE_METHOD(JS_serialize);
