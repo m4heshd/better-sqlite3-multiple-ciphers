@@ -73,7 +73,7 @@ npm install better-sqlite3-multiple-ciphers
 npm install better-sqlite3-multiple-ciphers@beta
 ```
 
-> Requires a [currently supported Node.js](https://nodejs.org/en/about/previous-releases) version. Prebuilt binaries are available for [LTS versions](https://nodejs.org/en/about/previous-releases). If you have trouble installing, check the [troubleshooting guide](./docs/troubleshooting.md).
+> Requires a [currently supported Node.js](https://nodejs.org/en/about/previous-releases) version. Prebuilt binaries are available for major platforms/architectures. If you have trouble installing, check the [troubleshooting guide](./docs/troubleshooting.md).
 
 ## Usage
 

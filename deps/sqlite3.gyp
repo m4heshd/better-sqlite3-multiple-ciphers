@@ -25,7 +25,7 @@
               '<(SHARED_INTERMEDIATE_DIR)/sqlite3/sqlite3.h',
               '<(SHARED_INTERMEDIATE_DIR)/sqlite3/sqlite3ext.h',
             ],
-            'action': ['node', 'copy.js', '<(SHARED_INTERMEDIATE_DIR)/sqlite3', '', 'sqlite3.c', 'sqlite3.h', 'sqlite3ext.h'],
+            'action': ['node', 'copy.js', '<(SHARED_INTERMEDIATE_DIR)/sqlite3', ''],
           }],
         }, {
           'actions': [{
@@ -38,7 +38,7 @@
               '<(SHARED_INTERMEDIATE_DIR)/sqlite3/sqlite3.c',
               '<(SHARED_INTERMEDIATE_DIR)/sqlite3/sqlite3.h',
             ],
-            'action': ['node', 'copy.js', '<(SHARED_INTERMEDIATE_DIR)/sqlite3', '<(sqlite3)', 'sqlite3.c', 'sqlite3.h'],
+            'action': ['node', 'copy.js', '<(SHARED_INTERMEDIATE_DIR)/sqlite3', '<(sqlite3)'],
           }],
         }],
       ],
@@ -65,7 +65,7 @@
             # This is currently required by better-sqlite3.
             'SQLITE_ENABLE_COLUMN_METADATA',
           ],
-        }],
+        }]
       ],
       'configurations': {
         'Debug': {

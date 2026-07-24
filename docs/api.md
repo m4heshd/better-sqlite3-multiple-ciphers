@@ -11,6 +11,7 @@
 - [Database#prepare()](#preparestring---statement) (see [`Statement`](#class-statement))
 - [Database#transaction()](#transactionfunction---function)
 - [Database#pragma()](#pragmastring-options---results)
+- [Database#explain()](#explainstring---array-of-rows)
 - [Database#backup()](#backupdestination-options---promise)
 - [Database#serialize()](#serializeoptions---buffer)
 - [Database#function()](#functionname-options-function---this)
@@ -127,6 +128,19 @@ console.log(db.pragma('cache_size', { simple: true })); // => 32000
 If execution of the PRAGMA fails, an `Error` is thrown.
 
 It's better to use this method instead of normal [prepared statements](#preparestring---statement) when executing PRAGMA, because this method normalizes some odd behavior that may otherwise be experienced. The documentation on SQLite PRAGMA can be found [here](https://www.sqlite.org/pragma.html).
+
+### .explain(*string*) -> *array of rows*
+
+Runs [`EXPLAIN`](https://www.sqlite.org/eqp.html) on the given SQL string and returns the result. By default this returns the low-level [bytecode](https://www.sqlite.org/opcode.html) program that SQLite would use to execute the statement (one row per virtual machine instruction). To get the higher-level [query plan](https://www.sqlite.org/eqp.html) instead, prefix your SQL with `QUERY PLAN`.
+
+```js
+db.explain('SELECT * FROM cats WHERE name = ?');
+db.explain('QUERY PLAN SELECT * FROM cats WHERE name = ?');
+```
+
+Unlike normal [prepared statements](#preparestring---statement), the SQL passed to this method may contain [parameters](#binding-parameters) that are left unbound. Since `EXPLAIN` only inspects the statement rather than executing it, no parameter values are needed.
+
+If the given SQL is invalid, an `Error` is thrown.
 
 ### .backup(*destination*, [*options*]) -> *promise*
 
@@ -446,6 +460,7 @@ An object representing a single SQL statement.
 - [Statement#raw()](#rawtogglestate---this)
 - [Statement#columns()](#columns---array-of-objects)
 - [Statement#bind()](#bindbindparameters---this)
+- [Statement#toString()](#tostring---string)
 - [Properties](#properties-1)
 
 > NOTE: If you've used the [SQLite C API](https://www.sqlite.org/c3ref), you might expect there to be a ["finalize"](https://www.sqlite.org/c3ref/finalize.html) method, but `better-sqlite3-multiple-ciphers` automatically handles this during garbage collection (or when the associated database is closed).
@@ -619,6 +634,23 @@ const cat = stmt.get();
 
 console.log(cat.name); // => "Joey"
 ```
+
+### .toString() -> *string*
+
+Returns the prepared statement's SQL string.
+
+If the statement has [bound parameters](#bindbindparameters---this), the returned string is the *expanded* SQL, with those parameters substituted into the statement. Otherwise, the statement's original [`.source`](#properties-1) string is returned (with its placeholders left intact).
+
+```js
+const stmt = db.prepare('SELECT * FROM cats WHERE name = ?');
+
+console.log(stmt.toString()); // => "SELECT * FROM cats WHERE name = ?"
+
+stmt.bind('Joey');
+console.log(stmt.toString()); // => "SELECT * FROM cats WHERE name = 'Joey'"
+```
+
+> Only parameters that are bound *permanently* via [`.bind()`](#bindbindparameters---this) are expanded. Temporary parameters passed to an execution method such as [`.get()`](#getbindparameters---row) are not reflected here. For that, you can use the [`verbose`](#new-databasepath-options) option when opening the database.
 
 ## Properties
 

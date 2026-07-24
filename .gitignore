@@ -35,9 +35,9 @@ node_modules
 .node_repl_history
 
 # Project specific
-lib/binding
 .DS_Store
 temp/
+memory/
 TODO
 .local
 
