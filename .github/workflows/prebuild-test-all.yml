@@ -3,132 +3,75 @@ name: prebuild-test-all
 on:
   workflow_dispatch:
 
-env:
-  NODE_BUILD_CMD_LEGACY: npx --no-install prebuild -r node -t 22.0.0 -t 24.0.0 --include-regex 'better_sqlite3.node$'
-  NODE_BUILD_CMD_MODERN: npx --no-install prebuild -r node -t 26.0.0 --include-regex 'better_sqlite3.node$'
-  ELECTRON_BUILD_CMD_LEGACY: npx --no-install prebuild -r electron -t 29.0.0 -t 30.0.0 -t 31.0.0 -t 32.0.0 -t 33.0.0 -t 34.0.0 -t 35.0.0 -t 36.0.0 -t 37.0.0 -t 38.0.0 --include-regex 'better_sqlite3.node$'
-  ELECTRON_BUILD_CMD_MODERN: npx --no-install prebuild -r electron -t 39.0.0 -t 40.0.0 -t 41.0.0 -t 42.3.0 --include-regex 'better_sqlite3.node$'
-
 jobs:
   prebuild:
     strategy:
       fail-fast: false
       matrix:
-        os:
-          - macos-15
-          - macos-15-intel
-          - windows-2022
-    name: Prebuild on ${{ matrix.os }}
+        include:
+          - os: ubuntu-22.04
+            target: linux-x64
+          - os: ubuntu-24.04-arm
+            target: linux-arm64
+          - os: macos-15-intel
+            target: darwin-x64
+          - os: macos-15
+            target: darwin-arm64
+          - os: windows-2022
+            target: win32-x64
+          - os: windows-11-arm
+            target: win32-arm64
+    name: Prebuild ${{ matrix.target }}
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-node@v6
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
-          node-version: 20
+          node-version: 24
       - if: ${{ startsWith(matrix.os, 'windows') }}
         run: pip.exe install setuptools
       - if: ${{ startsWith(matrix.os, 'macos') }}
         run: brew install python-setuptools
+      - if: ${{ startsWith(matrix.os, 'ubuntu') }}
+        run: python3 -m pip install setuptools
       - run: npm install --ignore-scripts
-      - run: ${{ env.NODE_BUILD_CMD_LEGACY }}
-      - run: ${{ env.NODE_BUILD_CMD_MODERN }}
-      - run: ${{ env.ELECTRON_BUILD_CMD_LEGACY }}
-      - run: ${{ env.ELECTRON_BUILD_CMD_MODERN }}
-      - if: matrix.os == 'windows-2022'
-        run: |
-          ${{ env.NODE_BUILD_CMD_LEGACY }} --arch ia32
-          ${{ env.NODE_BUILD_CMD_LEGACY }} --arch arm64
-          ${{ env.NODE_BUILD_CMD_MODERN }} --arch ia32
-          ${{ env.NODE_BUILD_CMD_MODERN }} --arch arm64
-          ${{ env.ELECTRON_BUILD_CMD_LEGACY }} --arch ia32
-          ${{ env.ELECTRON_BUILD_CMD_LEGACY }} --arch arm64
-          ${{ env.ELECTRON_BUILD_CMD_MODERN }} --arch ia32
-          ${{ env.ELECTRON_BUILD_CMD_MODERN }} --arch arm64
+      - run: npm run build-release
+      - uses: actions/upload-artifact@v7
+        with:
+          name: ${{ matrix.target }}
+          path: build/Release/better_sqlite3.node
+          if-no-files-found: error
 
-  prebuild-linux:
+  prebuild-alpine:
     strategy:
       fail-fast: false
       matrix:
-        os:
-          - ubuntu-latest
-          - ubuntu-24.04-arm
-        image:
-          - node:20-bullseye
-          - node:20-bookworm
         include:
-          - image: node:20-bullseye
-            generation: legacy
-          - image: node:20-bookworm
-            generation: modern
-          - os: ubuntu-latest
-            arch: x64
-          - os: ubuntu-24.04-arm
-            arch: arm64
-    name: Prebuild on Linux ${{ matrix.arch }} (${{ matrix.generation }})
-    runs-on: ${{ matrix.os }}
-    container: ${{ matrix.image }}
+          - platform: linux/amd64
+            target: linuxmusl-x64
+          - platform: linux/arm64
+            target: linuxmusl-arm64
+    name: Prebuild ${{ matrix.target }}
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v6
-      - run: npm install --ignore-scripts
-      - if: matrix.generation == 'legacy'
-        run: |
-          ${{ env.NODE_BUILD_CMD_LEGACY }}
-          ${{ env.ELECTRON_BUILD_CMD_LEGACY }}
-      - if: matrix.generation == 'modern'
-        run: |
-          ${{ env.NODE_BUILD_CMD_MODERN }}
-          ${{ env.ELECTRON_BUILD_CMD_MODERN }}
-
-  prebuild-linux-armv7:
-    strategy:
-      fail-fast: false
-      matrix:
-        image:
-          - node:20-bullseye
-          - node:20-bookworm
-        include:
-          - image: node:20-bullseye
-            generation: legacy
-          - image: node:20-bookworm
-            generation: modern
-    name: Prebuild on Linux armv7 (${{ matrix.generation }})
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: docker/setup-qemu-action@v4
-      - if: matrix.generation == 'legacy'
+      - name: Build in Alpine
         run: |
-          docker run --rm -v $(pwd):/tmp/project --entrypoint /bin/sh --platform linux/arm/v7 ${{ matrix.image }} -c "\
-          cd /tmp/project && \
-          npm install --ignore-scripts && \
-          ${{ env.NODE_BUILD_CMD_LEGACY }}"
-      - if: matrix.generation == 'modern'
-        run: |
-          docker run --rm -v $(pwd):/tmp/project --entrypoint /bin/sh --platform linux/arm/v7 ${{ matrix.image }} -c "\
-          cd /tmp/project && \
-          npm install --ignore-scripts && \
-          ${{ env.NODE_BUILD_CMD_MODERN }}"
-
-  prebuild-alpine-linux:
-    strategy:
-      fail-fast: false
-      matrix:
-        os:
-          - ubuntu-latest
-          - ubuntu-24.04-arm
-        include:
-          - os: ubuntu-latest
-            arch: x64
-          - os: ubuntu-24.04-arm
-            arch: arm64
-    name: Prebuild on Alpine-Linux (${{ matrix.arch }})
-    runs-on: ${{ matrix.os }}
-    steps:
-      - uses: actions/checkout@v6
-      - run: |
-          docker run --rm -v $(pwd):/tmp/project --entrypoint /bin/sh node:20-alpine -c "\
-          apk add build-base git python3 py3-setuptools --update-cache && \
-          cd /tmp/project && \
-          npm install --ignore-scripts && \
-          ${{ env.NODE_BUILD_CMD_LEGACY }} && \
-          ${{ env.NODE_BUILD_CMD_MODERN }}"
+          docker run --rm \
+            --platform ${{ matrix.platform }} \
+            --volume "${{ github.workspace }}:/project" \
+            --workdir /project \
+            node:22-alpine \
+            sh -c "apk add --no-cache build-base python3 py3-setuptools && \
+              npm install --ignore-scripts && \
+              npm run build-release && \
+              mkdir -p prebuilds && \
+              cp build/Release/better_sqlite3.node prebuilds/${{ matrix.target }}.node && \
+              rm -rf build && \
+              node -e \"require('./lib')(':memory:').close()\""
+      - uses: actions/upload-artifact@v7
+        with:
+          name: ${{ matrix.target }}
+          path: prebuilds/${{ matrix.target }}.node
+          if-no-files-found: error
