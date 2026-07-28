@@ -77,6 +77,7 @@ declare namespace BetterSqlite3MultipleCiphers {
         key(key: Buffer): number;
         rekey(key: Buffer): number;
         pragma(source: string, options?: Database.PragmaOptions): unknown;
+        explain(source: string): unknown[];
         function(name: string, cb: (...params: unknown[]) => unknown): this;
         function(name: string, options: Database.RegistrationOptions, cb: (...params: unknown[]) => unknown): this;
         aggregate<T>(
