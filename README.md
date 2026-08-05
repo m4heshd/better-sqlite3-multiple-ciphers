@@ -23,10 +23,10 @@ The fastest and simplest library for SQLite in Node.js. This particular fork sup
   - **SQLite3 Multiple Ciphers** - [`2.3.5`](https://github.com/utelle/SQLite3MultipleCiphers/releases/tag/v2.3.5)
 
 - ### Beta
-  - **better-sqlite3-multiple-ciphers** - [`11.0.0-beta.0`](https://github.com/m4heshd/better-sqlite3-multiple-ciphers/releases/tag/v11.0.0-beta.0)
-  - **better-sqlite3** - [`11.0.0`](https://github.com/JoshuaWise/better-sqlite3/releases/tag/v11.0.0)
-  - **SQLite** - [`3.46.0`](https://www.sqlite.org/releaselog/3_46_0.html)
-  - **SQLite3 Multiple Ciphers** - [`1.8.5`](https://github.com/utelle/SQLite3MultipleCiphers/releases/tag/v1.8.5)
+  - **better-sqlite3-multiple-ciphers** - [`13.0.0-beta.0`](https://github.com/m4heshd/better-sqlite3-multiple-ciphers/releases/tag/13.0.0-beta.0)
+  - **better-sqlite3** - [`13.0.3`](https://github.com/JoshuaWise/better-sqlite3/releases/tag/v13.0.3)
+  - **SQLite** - [`3.53.4`](https://www.sqlite.org/releaselog/3_53_4.html)
+  - **SQLite3 Multiple Ciphers** - [`2.4.0`](https://github.com/utelle/SQLite3MultipleCiphers/releases/tag/v2.4.0)
 
 ## Help this project stay strong! &#128170;
 
