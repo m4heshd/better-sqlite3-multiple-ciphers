@@ -79,7 +79,7 @@ jobs:
           if-no-files-found: error
 
   publish:
-    needs: [prebuild, prebuild-alpine]
+    needs: [ prebuild, prebuild-alpine ]
     runs-on: ubuntu-22.04
     permissions:
       id-token: write
@@ -102,4 +102,12 @@ jobs:
             cp artifacts/$target/*.node "prebuilds/$target.node"
           done
       - run: npm install -g npm@latest
-      - run: npm publish --provenance
+      - name: Publish to NPM
+        shell: bash
+        run: |
+          if [ "${{ github.event.release.prerelease }}" = "true" ]; then
+            echo "Detected a Pre-release. Publishing as beta"
+            npm publish --provenance --tag beta   
+          else
+            npm publish --provenance
+          fi
