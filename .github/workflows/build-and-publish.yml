@@ -1,4 +1,4 @@
-name: prebuild
+name: build-and-publish
 
 on:
   release:
