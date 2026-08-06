@@ -23,32 +23,34 @@ The fastest and simplest library for SQLite in Node.js. This particular fork sup
   - **SQLite3 Multiple Ciphers** - [`2.3.5`](https://github.com/utelle/SQLite3MultipleCiphers/releases/tag/v2.3.5)
 
 - ### Beta
-  - **better-sqlite3-multiple-ciphers** - [`13.0.0-beta.0`](https://github.com/m4heshd/better-sqlite3-multiple-ciphers/releases/tag/13.0.0-beta.0)
+  - **better-sqlite3-multiple-ciphers** - [`13.0.0-beta.0`](https://github.com/m4heshd/better-sqlite3-multiple-ciphers/releases/tag/v13.0.0-beta.0)
   - **better-sqlite3** - [`13.0.3`](https://github.com/JoshuaWise/better-sqlite3/releases/tag/v13.0.3)
   - **SQLite** - [`3.53.4`](https://www.sqlite.org/releaselog/3_53_4.html)
   - **SQLite3 Multiple Ciphers** - [`2.4.0`](https://github.com/utelle/SQLite3MultipleCiphers/releases/tag/v2.4.0)
 
 ## Help this project stay strong! &#128170;
 
-`better-sqlite3` is used by thousands of developers and engineers on a daily basis. Long nights and weekends were spent keeping this project strong and dependable, with no ask for compensation or funding, until now. If your company uses `better-sqlite3`, ask your manager to consider supporting the project:
+I'm the author of `better-sqlite3-multiple-ciphers` and also a team member and maintainer of `better-sqlite3`. `better-sqlite3-multiple-ciphers` is mostly used by commercial projects that require data security on the client's end. If your company uses `better-sqlite3-multiple-ciphers`, ask your manager to consider supporting the project. I put in a lot of hours to maintain both of these projects, and you can support me by buying me a few coffees. 😊
 
-- [Become a GitHub sponsor](https://github.com/sponsors/JoshuaWise)
-- [Become a backer on Patreon](https://www.patreon.com/joshuawise)
-- [Make a one-time donation on PayPal](https://www.paypal.me/joshuathomaswise)
+The best way for you to support me is via GitHub Sponsors, even for one-time donations, because they don't keep a share. Everything you donate goes to the developer.
 
-Also head over to [SQLite3MultipleCiphers](https://github.com/utelle/SQLite3MultipleCiphers) repo and give some support to the developer to keep this very useful extension alive.
-
-You can also support me (the author/maintainer of this fork) by buying me a coffee. 😊
-
-**Wise is the preferred method for donations because PayPal takes a huge chunk (~22%) off of every donation _(ko-fi also uses PayPal)_.**
+[![Donate on GitHub](https://i.ibb.co/MD20Myt2/Donate-on-Git-Hub.png)](https://github.com/sponsors/m4heshd)
 
 [![Donate to m4heshd on Wise](https://i.ibb.co/s9nT2hfp/donate-on-wise.png)](https://wise.variatix.net/)
 
 Other donation methods:
 
+**PayPal is not a preferred method of donation because they take a huge chunk (~22%) off of every donation _(ko-fi also uses PayPal)_.**
+
 [![ko-fi](https://i.ibb.co/QmQknmc/ko-fi.png)](https://ko-fi.variatix.net/)
 
 [![Donate to m4heshd](https://i.ibb.co/8PgVcwK/Paypal.png)](https://paypal.variatix.net/)
+
+**Also make sure to support the upstream projects**
+
+Head over to the [better-sqlite3](https://github.com/JoshuaWise/better-sqlite3) repo and give some support to the author and the team to keep this valuable package maintained.
+
+Also, head over to the [SQLite3MultipleCiphers](https://github.com/utelle/SQLite3MultipleCiphers) repo and give some support to the developer to keep this very useful extension alive. This project is authored and maintained by a sole developer.
 
 ## How other libraries compare
 
