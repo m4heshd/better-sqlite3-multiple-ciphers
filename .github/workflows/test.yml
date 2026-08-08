@@ -60,7 +60,7 @@ jobs:
 
   test-alpine-linux:
     name: Testing Node 22 on Alpine-Linux
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     container: node:22-alpine
     steps:
       - uses: actions/checkout@v7
@@ -71,7 +71,7 @@ jobs:
 
   test-alpine-linux-arm64:
     name: Testing Node 22 on Alpine-Linux (arm64)
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
     steps:
       - uses: actions/checkout@v7
       - uses: docker/setup-qemu-action@v4
