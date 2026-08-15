@@ -10,7 +10,10 @@
   },
   "main": "lib/index.js",
   "exports": {
-    ".": "./lib/index.js",
+    ".": {
+        "types": "./index.d.ts",
+        "default": "./lib/index.js"
+    },
     "./linux-x64": "./lib/linux-x64.js",
     "./linux-arm64": "./lib/linux-arm64.js",
     "./linuxmusl-x64": "./lib/linuxmusl-x64.js",
