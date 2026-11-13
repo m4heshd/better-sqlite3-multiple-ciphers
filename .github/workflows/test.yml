@@ -77,7 +77,7 @@ jobs:
       - uses: docker/setup-qemu-action@v4
       - run: |
           docker run --rm -v $(pwd):/tmp/project --entrypoint /bin/sh --platform linux/arm64 node:22-alpine -c "\
-          apk add build-base git python3 py3-setuptools --update-cache && \
+          apk add build-base git python3 py3-setuptools linux-headers --update-cache && \
           cd /tmp/project && \
           npm install --ignore-scripts && \
           npm run build-debug && \

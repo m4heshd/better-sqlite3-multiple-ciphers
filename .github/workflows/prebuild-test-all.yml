@@ -50,9 +50,11 @@ jobs:
           - platform: linux/amd64
             target: linuxmusl-x64
             os: ubuntu-24.04
+            extra-apk-packages: ""
           - platform: linux/arm64
             target: linuxmusl-arm64
             os: ubuntu-24.04-arm
+            extra-apk-packages: linux-headers
     name: Prebuild ${{ matrix.target }}
     runs-on: ${{ matrix.os }}
     steps:
@@ -65,7 +67,7 @@ jobs:
             --volume "${{ github.workspace }}:/project" \
             --workdir /project \
             node:22-alpine \
-            sh -c "apk add --no-cache build-base python3 py3-setuptools && \
+            sh -c "apk add --no-cache build-base python3 py3-setuptools ${{ matrix.extra-apk-packages }} && \
               npm install --ignore-scripts && \
               npm run build-release && \
               mkdir -p prebuilds && \
