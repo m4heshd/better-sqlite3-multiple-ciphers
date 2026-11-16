@@ -22,7 +22,7 @@
 
 YEAR="2026"
 VERSION="3540100"
-SQLITE3MC_VERSION="v2.7.0"
+SQLITE3MC_VERSION="v2.7.1"
 
 # Defines below are sorted alphabetically
 DEFINES="
